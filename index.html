@@ -57,6 +57,10 @@
             width: 100%;
             padding: 1.5rem;
         }
+        #umum .rpm-content {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
         @media (min-width: 768px) {
             .rpm-section {
                 flex-direction: row;
@@ -212,6 +216,8 @@
 
     <main class="container mx-auto px-4 lg:px-8 py-8">
         
+        <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Rencana Pembelajaran Mendalam</h1>
+
         <div id="umum" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Informasi Umum</h3></div>
             <div class="w-full">
@@ -287,29 +293,62 @@
         <div id="identifikasi" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Identifikasi</h3></div>
             <div class="w-full">
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Peserta Didik</label><textarea class="textarea-input" placeholder="Jelaskan hasil identifikasi kesiapan peserta didik seperti pengetahuan awal, minat, latar belakang, dan kebutuhan belajar, serta aspek lainnya."></textarea></div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Dimensi Profil Lulusan</label><div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2"><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Keimanan dan Ketaqwaan terhadap Tuhan YME</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Penalaran Kritis</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kolaborasi</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kesehatan</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kewargaan</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kreativitas</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kemandirian</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Komunikasi</span></label></div></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Peserta Didik</label>
+                    <textarea class="textarea-input" placeholder="Jelaskan hasil identifikasi kesiapan peserta didik seperti pengetahuan awal, minat, latar belakang, dan kebutuhan belajar, serta aspek lainnya."></textarea>
+                </div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Dimensi Profil Lulusan</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2"><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Keimanan dan Ketaqwaan terhadap Tuhan YME</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Penalaran Kritis</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kolaborasi</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kesehatan</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kewargaan</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kreativitas</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kemandirian</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Komunikasi</span></label></div>
+                </div></div>
             </div>
         </div>
 
         <div id="desain" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Desain Pembelajaran</h3></div>
             <div class="w-full">
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Capaian Pembelajaran (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan capaian pembelajaran sesuai fase"></textarea></div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Lintas Disiplin Ilmu (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan disiplin ilmu dan/atau mata pelajaran yang relevan"></textarea></div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Tujuan Pembelajaran</label><textarea class="textarea-input" placeholder="Tuliskan tujuan pembelajaran yang mencakup kompetensi dan konten pada ruang lingkup materi dengan menggunakan kata kerja operasional yang relevan."></textarea></div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Topik Pembelajaran (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan topik pembelajaran yang relevan dengan capaian dan tujuan pembelajaran"></textarea></div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Praktik Pedagogis</label><textarea class="textarea-input" placeholder="Jelaskan Metode/Strategi/Model pembelajaran yang dipilih untuk mencapai tujuan belajar, seperti pembelajaran berbasis masalah, proyek, inkuiri, dsb."></textarea></div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Kemitraan Pembelajaran (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan kegiatan kemitraan atau kolaborasi dalam dan/atau luar lingkup sekolah, seperti kemitraan antar guru, orang tua, komunitas, dunia usaha dan dunia industri kerja, institusi, atau mitra profesional."></textarea></div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Lingkungan Pembelajaran</label><textarea class="textarea-input" placeholder="Tuliskan lingkungan pembelajaran yang ingin dikembangkan dalam budaya belajar, ruang fisik dan/atau ruang virtual, supaya proses belajar mengajar tercipta iklim belajar yang aman, nyaman, dan saling memuliakan."></textarea></div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Pemanfaatan Digital (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan pemanfaatan teknologi digital untuk menciptakan pembelajaran yang interaktif, kolaboratif, dan kontekstual. Contoh: Video pembelajaran, platform pembelajaran, perpustakaan digital, forum diskusi daring, aplikasi penilaian, dan sebagainya."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Capaian Pembelajaran (opsional)</label>
+                    <textarea class="textarea-input" placeholder="Tuliskan capaian pembelajaran sesuai fase"></textarea>
+                </div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Lintas Disiplin Ilmu (opsional)</label>
+                    <textarea class="textarea-input" placeholder="Tuliskan disiplin ilmu dan/atau mata pelajaran yang relevan"></textarea>
+                </div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Tujuan Pembelajaran</label>
+                    <textarea class="textarea-input" placeholder="Tuliskan tujuan pembelajaran yang mencakup kompetensi dan konten pada ruang lingkup materi dengan menggunakan kata kerja operasional yang relevan."></textarea>
+                </div></div>
+                 <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Topik Pembelajaran (opsional)</label>
+                    <textarea class="textarea-input" placeholder="Tuliskan topik pembelajaran yang relevan dengan capaian dan tujuan pembelajaran"></textarea>
+                </div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Praktik Pedagogis</label>
+                    <textarea class="textarea-input" placeholder="Jelaskan Metode/Strategi/Model pembelajaran yang dipilih untuk mencapai tujuan belajar, seperti pembelajaran berbasis masalah, proyek, inkuiri, dsb."></textarea>
+                </div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Kemitraan Pembelajaran (opsional)</label>
+                    <textarea class="textarea-input" placeholder="Tuliskan kegiatan kemitraan atau kolaborasi dalam dan/atau luar lingkup sekolah, seperti kemitraan antar guru, orang tua, komunitas, dunia usaha dan dunia industri kerja, institusi, atau mitra profesional."></textarea>
+                </div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Lingkungan Pembelajaran</label>
+                    <textarea class="textarea-input" placeholder="Tuliskan lingkungan pembelajaran yang ingin dikembangkan dalam budaya belajar, ruang fisik dan/atau ruang virtual, supaya proses belajar mengajar tercipta iklim belajar yang aman, nyaman, dan saling memuliakan."></textarea>
+                </div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">Pemanfaatan Digital (opsional)</label>
+                    <textarea class="textarea-input" placeholder="Tuliskan pemanfaatan teknologi digital untuk menciptakan pembelajaran yang interaktif, kolaboratif, dan kontekstual. Contoh: Video pembelajaran, platform pembelajaran, perpustakaan digital, forum diskusi daring, aplikasi penilaian, dan sebagainya."></textarea>
+                </div></div>
             </div>
         </div>
         
         <div id="pengalaman" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Pengalaman Belajar</h3></div>
             <div class="w-full">
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">AWAL (opsional)</label><textarea class="textarea-input" placeholder="Pembuka dari proses pembelajaran yang bertujuan untuk mempersiapkan peserta didik sebelum memasuki inti pembelajaran. Kegiatan dalam tahap ini meliputi orientasi yang bermakna, apersepsi yang kontekstual, dan motivasi yang menggembirakan."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">AWAL (opsional)</label>
+                    <textarea class="textarea-input" placeholder="Pembuka dari proses pembelajaran yang bertujuan untuk mempersiapkan peserta didik sebelum memasuki inti pembelajaran. Kegiatan dalam tahap ini meliputi orientasi yang bermakna, apersepsi yang kontekstual, dan motivasi yang menggembirakan."></textarea>
+                </div></div>
                 <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">INTI</label><p class="text-sm text-gray-500 mb-4">Pada tahap ini, siswa aktif terlibat dalam pengalaman belajar memahami, mengaplikasi, dan merefleksi. Guru menerapkan prinsip pembelajaran berkesadaran, bermakna, menyenangkan untuk mencapai tujuan pembelajaran.</p>
                     <div class="space-y-4">
                         <div>
@@ -326,7 +365,10 @@
                         </div>
                     </div>
                 </div></div>
-                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">PENUTUP (opsional)</label><textarea class="textarea-input" placeholder="Tahap akhir dalam proses pembelajaran yang bertujuan memberikan umpan balik yang konstruktif kepada siswa atas pengalaman belajar yang telah dilakukan, menyimpulkan pembelajaran, dan siswa terlibat dalam perencanaan pembelajaran selanjutnya."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full">
+                    <label class="input-label">PENUTUP (opsional)</label>
+                    <textarea class="textarea-input" placeholder="Tahap akhir dalam proses pembelajaran yang bertujuan memberikan umpan balik yang konstruktif kepada siswa atas pengalaman belajar yang telah dilakukan, menyimpulkan pembelajaran, dan siswa terlibat dalam perencanaan pembelajaran selanjutnya."></textarea>
+                </div></div>
             </div>
         </div>
 
@@ -420,9 +462,12 @@
                     this.style.height = (this.scrollHeight) + 'px';
                 }, false);
             });
+
         });
     </script>
 </body>
 </html>
+
+
 
 
