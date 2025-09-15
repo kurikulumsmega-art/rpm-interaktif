@@ -5,68 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Penyusun Rencana Pembelajaran Mendalam (RPM) Interaktif</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Calm Harmony Neutrals -->
-    <!-- Application Structure Plan: A single-page application structured as a guided workflow for creating a lesson plan (RPM). It features a sticky navigation bar for easy access to sections: Info Umum, Desain, Langkah, Asesmen, and a final Pengesahan section. This structure was chosen to transform the static document-filling process into a dynamic, user-friendly digital experience. -->
-    <!-- Visualization & Content Choices: 1. RPM Template -> Goal: Inform & Collect Data -> Method: Structured HTML forms with Tailwind CSS -> Interaction: User input -> Justification: Provides a clear, digital version of the original template. 2. Dimensi Profil Lulusan -> Goal: Organize & Select -> Method: Interactive checkboxes -> Interaction: User selection -> Justification: More interactive and user-friendly than typing. -->
+    <!-- Chosen Palette: Professional Blue -->
+    <!-- Application Structure Plan: A single-page application structured as a guided workflow for creating a lesson plan (RPM). It features a sticky navigation bar for easy access to sections: Info Umum, Identifikasi, Desain, Pengalaman, Asesmen, and a final Pengesahan section. The main content adopts a two-column layout as requested, with category titles on the left and input fields on the right, to mirror a standard professional document format. -->
+    <!-- Visualization & Content Choices: 1. RPM Template -> Goal: Inform & Collect Data -> Method: Structured two-column HTML forms with Tailwind CSS -> Interaction: User input -> Justification: Provides a clear, digital version of the requested document format. 2. Dimensi Profil Lulusan -> Goal: Organize & Select -> Method: Interactive checkboxes -> Interaction: User selection -> Justification: More interactive and user-friendly than typing. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb; /* gray-50 - More subtle background */
-            color: #374151; /* gray-700 */
+            background-color: #f9fafb;
+            color: #374151;
         }
         .section-card {
             background-color: white;
             border-radius: 0.75rem;
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); /* Softer shadow */
-            border: 1px solid #e5e7eb; /* Subtle border */
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        .rpm-section {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+        .rpm-row {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .rpm-row:last-child {
+            border-bottom: none;
+        }
+        .rpm-category {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background-color: #1e3a8a; /* Changed to dark blue */
+            border-bottom: 1px solid #1e3a8a;
+        }
+        .rpm-category h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff; /* Changed to white */
+        }
+        .rpm-content {
+            width: 100%;
+            padding: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .rpm-section {
+                flex-direction: row;
+            }
+            .rpm-row {
+                flex-direction: row;
+            }
+            .rpm-category {
+                width: 25%;
+                border-right: 1px solid #1e3a8a;
+                border-bottom: none;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            }
+            .rpm-category h3 {
+                font-size: 1.125rem;
+            }
+            .rpm-content {
+                width: 75%;
+            }
         }
         .section-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #1e3a8a; /* blue-900 */
+            color: #1e3a8a;
             margin-bottom: 1.5rem;
-            border-bottom: 2px solid #dbeafe; /* blue-100 */
+            border-bottom: 2px solid #dbeafe;
             padding-bottom: 0.5rem;
         }
         .input-label {
             display: block;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #4b5563; /* gray-600 */
+            color: #4b5563;
         }
         .text-input, .textarea-input {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #d1d5db; /* gray-300 */
+            border: 1px solid #d1d5db;
             border-radius: 0.5rem;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
         .text-input:focus, .textarea-input:focus {
             outline: none;
-            border-color: #2563eb; /* blue-600 */
-            box-shadow: 0 0 0 2px #bfdbfe; /* blue-200 */
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px #bfdbfe;
         }
         .textarea-input {
             min-height: 120px;
+            resize: vertical; /* Allow manual resize as well */
         }
         .nav-link {
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
             transition: background-color 0.3s, color 0.3s;
-            color: #1e40af; /* blue-800 */
+            color: #1e40af;
             font-weight: 500;
         }
         .nav-link:hover, .nav-link.active {
-            background-color: #3b82f6; /* blue-500 */
+            background-color: #3b82f6;
             color: white;
         }
         .print-button {
-            background-color: #2563eb; /* blue-600 */
+            background-color: #2563eb;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -74,26 +129,33 @@
             transition: background-color 0.3s;
         }
         .print-button:hover {
-            background-color: #1d4ed8; /* blue-700 */
+            background-color: #1d4ed8;
         }
 
         @media print {
             body {
                 background-color: white;
-                font-size: 12pt;
+                font-size: 10pt;
             }
-            header, .print-button-container, .print-info {
-                display: none;
-            }
-            main {
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            .section-card {
+            header, .print-button-container, .print-info { display: none; }
+            main { padding: 0 !important; margin: 0 !important; }
+            .section-card, .rpm-section {
                 box-shadow: none;
                 border: 1px solid #e5e7eb;
-                padding: 1.5rem;
+                padding: 1rem;
                 page-break-inside: avoid;
+            }
+            .rpm-row {
+                 border-bottom: 1px solid #e5e7eb;
+            }
+             .rpm-category {
+                 background-color: #1e3a8a !important;
+                 border-right-color: #1e3a8a !important;
+                 -webkit-print-color-adjust: exact; 
+                 color-adjust: exact;
+            }
+            .rpm-category h3 {
+                color: #ffffff !important;
             }
             .section-title {
                 font-size: 16pt;
@@ -103,24 +165,20 @@
             .text-input, .textarea-input {
                 border: none;
                 padding: 0;
-                background-color: #f9fafb;
+                background-color: #f9fafb !important;
+                 -webkit-print-color-adjust: exact; 
+                 color-adjust: exact;
                 border-radius: 0;
                 min-height: auto;
                 color: black !important;
+                height: auto !important;
+                overflow: visible !important;
             }
              .textarea-input {
                 padding: 0.5rem;
                 border: 1px dashed #d1d5db;
             }
-            p, .input-label {
-                color: black !important;
-            }
-             .grid {
-                display: block;
-            }
-             .grid > div {
-                margin-bottom: 1rem;
-            }
+            p, .input-label { color: black !important; }
         }
     </style>
 </head>
@@ -129,21 +187,23 @@
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 shadow-sm border-b border-gray-200">
         <nav class="container mx-auto px-4 lg:px-8 py-3">
             <div class="flex flex-wrap items-center justify-between gap-4">
-                <h1 class="text-xl font-bold text-blue-800">RPM Interaktif</h1>
+                <div>
+                    <h1 class="text-xl font-bold text-blue-800">RPM Interaktif</h1>
+                    <p class="text-sm font-semibold text-gray-700 -mt-1">SMK N 1 Purbalingga</p>
+                </div>
                 <div class="flex flex-wrap items-center gap-2">
-                    <a href="#umum" class="nav-link active">Informasi Umum</a>
+                    <a href="#umum" class="nav-link active">Informasi</a>
+                    <a href="#identifikasi" class="nav-link">Identifikasi</a>
                     <a href="#desain" class="nav-link">Desain</a>
-                    <a href="#langkah" class="nav-link">Langkah</a>
+                    <a href="#pengalaman" class="nav-link">Pengalaman</a>
                     <a href="#asesmen" class="nav-link">Asesmen</a>
                     <a href="#pengesahan" class="nav-link">Pengesahan</a>
                     <div class="print-button-container flex flex-col items-end">
                         <button id="printBtn" class="print-button flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" /></svg>
                             Cetak
                         </button>
-                         <p class="text-xs text-gray-500 mt-1 print-info">Jika tombol tidak berfungsi, gunakan <kbd class="font-sans border rounded px-1 text-gray-600">Ctrl+P</kbd>.</p>
+                         <p class="text-xs text-gray-500 mt-1 print-info">Gunakan <kbd class="font-sans border rounded px-1 text-gray-600">Ctrl+P</kbd> jika tombol tidak berfungsi.</p>
                     </div>
                 </div>
             </div>
@@ -151,239 +211,175 @@
     </header>
 
     <main class="container mx-auto px-4 lg:px-8 py-8">
-
-        <!-- SECTION 1: INFORMASI UMUM -->
+        
         <section id="umum" class="section-card scroll-mt-24">
-            <h2 class="section-title">A. Informasi Umum & Identifikasi</h2>
-            <p class="mb-6 text-gray-600">Lengkapi informasi dasar mengenai rencana pembelajaran Anda. Bagian ini membantu memberikan konteks pada keseluruhan perencanaan yang akan dibuat.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="input-label" for="nama-guru">Nama Guru</label>
-                    <input type="text" id="nama-guru" class="text-input" placeholder="Contoh: Budi Santoso, S.Pd.">
-                </div>
-                <div>
-                    <label class="input-label" for="nip-guru">NIP Guru</label>
-                    <input type="text" id="nip-guru" class="text-input" placeholder="Contoh: 198501012010011001">
-                </div>
+            <h2 class="section-title">Informasi Umum</h2>
+            <div class="space-y-6">
+                <!-- Baris 1 -->
                 <div>
                     <label class="input-label" for="satuan-pendidikan">Satuan Pendidikan</label>
                     <input type="text" id="satuan-pendidikan" class="text-input" value="SMK Negeri 1 Purbalingga" readonly>
                 </div>
-                <div>
-                    <label class="input-label" for="mata-pelajaran">Mata Pelajaran</label>
-                    <input type="text" id="mata-pelajaran" class="text-input" placeholder="Contoh: Dasar-dasar Teknik Otomotif">
+                <!-- Baris 2 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="input-label" for="nama-guru">Nama Guru</label>
+                        <input type="text" id="nama-guru" class="text-input" placeholder="Contoh: Budi Santoso, S.Pd.">
+                    </div>
+                    <div>
+                        <label class="input-label" for="nip-guru">NIP Guru</label>
+                        <input type="text" id="nip-guru" class="text-input" placeholder="Contoh: 198501012010011001">
+                    </div>
                 </div>
-                <div>
-                    <label class="input-label" for="elemen">Elemen</label>
-                    <input type="text" id="elemen" class="text-input" placeholder="Contoh: Perawatan dan Perbaikan Engine">
-                </div>
-                 <div>
-                    <label class="input-label" for="kelas-fase">Kelas/Semester/Fase</label>
-                    <input type="text" id="kelas-fase" class="text-input" placeholder="Contoh: X / Ganjil / Fase E">
-                </div>
-                <div>
-                    <label class="input-label" for="alokasi-waktu">Alokasi Waktu</label>
-                    <input type="text" id="alokasi-waktu" class="text-input" placeholder="Contoh: 6 JP (2 x Pertemuan)">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="input-label" for="topik">Materi Ajar/Topik</label>
-                    <input type="text" id="topik" class="text-input" placeholder="Contoh: Sistem Pelumasan Mesin">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="input-label" for="kesiapan-murid">Kesiapan Murid (Profil Belajar)</label>
-                    <textarea id="kesiapan-murid" class="textarea-input" placeholder="Jelaskan hasil identifikasi kesiapan belajar murid (minat, gaya belajar, pemahaman awal)."></textarea>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="input-label" for="karakteristik-mapel">Karakteristik Mata Pelajaran</label>
-                    <textarea id="karakteristik-mapel" class="textarea-input" placeholder="Jelaskan tantangan utama dalam mempelajari topik ini."></textarea>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="input-label">Dimensi Profil Lulusan yang Dituju</label>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2 p-4 border rounded-lg bg-gray-50">
-                        <label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"><span>Beriman, Bertakwa</span></label>
-                        <label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"><span>Berkebinekaan Global</span></label>
-                        <label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"><span>Gotong Royong</span></label>
-                        <label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"><span>Mandiri</span></label>
-                        <label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"><span>Bernalar Kritis</span></label>
-                        <label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"><span>Kreatif</span></label>
+                <!-- Baris 3 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="input-label" for="mata-pelajaran">Mata Pelajaran</label>
+                        <input type="text" id="mata-pelajaran" class="text-input" placeholder="Contoh: Dasar-dasar Teknik Otomotif">
+                    </div>
+                     <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="input-label" for="kelas">Kelas</label>
+                            <input type="text" id="kelas" class="text-input" placeholder="X">
+                        </div>
+                        <div>
+                            <label class="input-label" for="semester">Semester</label>
+                            <input type="text" id="semester" class="text-input" placeholder="Ganjil">
+                        </div>
+                        <div>
+                            <label class="input-label" for="fase">Fase</label>
+                            <input type="text" id="fase" class="text-input" placeholder="E">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="input-label" for="alokasi-waktu">Alokasi Waktu</label>
+                        <input type="text" id="alokasi-waktu" class="text-input" placeholder="Contoh: 6 JP (2 x Pertemuan)">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 2: DESAIN PEMBELAJARAN -->
-        <section id="desain" class="section-card scroll-mt-24">
-            <h2 class="section-title">B. Desain Pembelajaran</h2>
-             <p class="mb-6 text-gray-600">Rancang kerangka pembelajaran yang akan dilaksanakan. Pastikan setiap komponen selaras satu sama lain untuk mencapai tujuan yang diharapkan.</p>
-            <div class="space-y-6">
-                <div>
-                    <label class="input-label" for="cp">Capaian Pembelajaran (CP)</label>
-                    <textarea id="cp" class="textarea-input" placeholder="Salin Capaian Pembelajaran sesuai elemen dari dokumen CP yang berlaku."></textarea>
-                </div>
-                <div>
-                    <label class="input-label" for="tp">Tujuan Pembelajaran (TP)</label>
-                    <textarea id="tp" class="textarea-input" placeholder="Rumuskan tujuan pembelajaran yang spesifik dan terukur. Pisahkan dengan baris baru untuk setiap tujuan."></textarea>
-                </div>
-                 <div>
-                    <label class="input-label" for="pedagogis">Praktik Pedagogis</label>
-                    <textarea id="pedagogis" class="textarea-input" placeholder="Jelaskan pendekatan/strategi yang digunakan (Contoh: Pembelajaran Berbasis Proyek) dan bagaimana implementasinya."></textarea>
-                </div>
-                <div>
-                    <label class="input-label" for="kemitraan">Kemitraan Pembelajaran</label>
-                    <textarea id="kemitraan" class="textarea-input" placeholder="Jelaskan pihak yang dilibatkan (Contoh: Kolaborasi antar murid, narasumber industri) dan bagaimana perannya."></textarea>
-                </div>
-                <div>
-                    <label class="input-label" for="lingkungan">Lingkungan Pembelajaran</label>
-                    <textarea id="lingkungan" class="textarea-input" placeholder="Gambarkan kondisi lingkungan belajar yang ingin diciptakan (fisik dan psikologis)."></textarea>
-                </div>
-                <div>
-                    <label class="input-label" for="digital">Pemanfaatan Digital</label>
-                    <textarea id="digital" class="textarea-input" placeholder="Sebutkan alat/platform digital yang digunakan dan jelaskan bagaimana teknologi tersebut memperkaya pengalaman belajar."></textarea>
-                </div>
+        <div id="identifikasi" class="rpm-section scroll-mt-24">
+            <div class="rpm-category"><h3>Identifikasi</h3></div>
+            <div class="w-full">
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Peserta Didik</label><textarea class="textarea-input" placeholder="Jelaskan hasil identifikasi kesiapan peserta didik seperti pengetahuan awal, minat, latar belakang, dan kebutuhan belajar, serta aspek lainnya."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Dimensi Profil Lulusan</label><div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2"><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Keimanan dan Ketaqwaan terhadap Tuhan YME</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Penalaran Kritis</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kolaborasi</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kesehatan</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kewargaan</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kreativitas</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Kemandirian</span></label><label class="flex items-center space-x-2"><input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"><span>Komunikasi</span></label></div></div></div>
             </div>
-        </section>
+        </div>
+
+        <div id="desain" class="rpm-section scroll-mt-24">
+            <div class="rpm-category"><h3>Desain Pembelajaran</h3></div>
+            <div class="w-full">
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Capaian Pembelajaran (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan capaian pembelajaran sesuai fase"></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Lintas Disiplin Ilmu (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan disiplin ilmu dan/atau mata pelajaran yang relevan"></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Tujuan Pembelajaran</label><textarea class="textarea-input" placeholder="Tuliskan tujuan pembelajaran yang mencakup kompetensi dan konten pada ruang lingkup materi dengan menggunakan kata kerja operasional yang relevan."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Topik Pembelajaran (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan topik pembelajaran yang relevan dengan capaian dan tujuan pembelajaran"></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Praktik Pedagogis</label><textarea class="textarea-input" placeholder="Jelaskan Metode/Strategi/Model pembelajaran yang dipilih untuk mencapai tujuan belajar, seperti pembelajaran berbasis masalah, proyek, inkuiri, dsb."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Kemitraan Pembelajaran (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan kegiatan kemitraan atau kolaborasi dalam dan/atau luar lingkup sekolah, seperti kemitraan antar guru, orang tua, komunitas, dunia usaha dan dunia industri kerja, institusi, atau mitra profesional."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Lingkungan Pembelajaran</label><textarea class="textarea-input" placeholder="Tuliskan lingkungan pembelajaran yang ingin dikembangkan dalam budaya belajar, ruang fisik dan/atau ruang virtual, supaya proses belajar mengajar tercipta iklim belajar yang aman, nyaman, dan saling memuliakan."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Pemanfaatan Digital (opsional)</label><textarea class="textarea-input" placeholder="Tuliskan pemanfaatan teknologi digital untuk menciptakan pembelajaran yang interaktif, kolaboratif, dan kontekstual. Contoh: Video pembelajaran, platform pembelajaran, perpustakaan digital, forum diskusi daring, aplikasi penilaian, dan sebagainya."></textarea></div></div>
+            </div>
+        </div>
         
-        <!-- SECTION 3: LANGKAH PEMBELAJARAN -->
-        <section id="langkah" class="section-card scroll-mt-24">
-            <h2 class="section-title">C. Langkah-langkah Pembelajaran</h2>
-            <p class="mb-6 text-gray-600">Uraikan alur kegiatan pembelajaran secara rinci menggunakan siklus Memahami, Mengaplikasi, dan Merefleksi. Anda dapat menambahkan beberapa pertemuan jika diperlukan.</p>
-            <div id="langkah-container" class="space-y-8">
-                <div class="border border-gray-200 rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Pertemuan 1</h3>
-                    <div>
-                        <label class="input-label">Kegiatan Pendahuluan</label>
-                        <textarea class="textarea-input mb-4" placeholder="Contoh: Apersepsi, motivasi, penyampaian tujuan."></textarea>
+        <div id="pengalaman" class="rpm-section scroll-mt-24">
+            <div class="rpm-category"><h3>Pengalaman Belajar</h3></div>
+            <div class="w-full">
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">AWAL (opsional)</label><textarea class="textarea-input" placeholder="Pembuka dari proses pembelajaran yang bertujuan untuk mempersiapkan peserta didik sebelum memasuki inti pembelajaran. Kegiatan dalam tahap ini meliputi orientasi yang bermakna, apersepsi yang kontekstual, dan motivasi yang menggembirakan."></textarea></div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">INTI</label><p class="text-sm text-gray-500 mb-4">Pada tahap ini, siswa aktif terlibat dalam pengalaman belajar memahami, mengaplikasi, dan merefleksi. Guru menerapkan prinsip pembelajaran berkesadaran, bermakna, menyenangkan untuk mencapai tujuan pembelajaran.</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="input-label font-medium text-gray-800">Memahami</label>
+                            <textarea class="textarea-input" placeholder="Tuliskan kegiatan pembelajaran yang memfasilitasi peserta didik untuk terlibat aktif mengonstruksi pengetahuan agar dapat memahami secara mendalam konsep atau materi dari berbagai sumber dan konteks."></textarea>
+                        </div>
+                        <div>
+                            <label class="input-label font-medium text-gray-800">Mengaplikasi</label>
+                            <textarea class="textarea-input" placeholder="Tuliskan kegiatan yang mengondisikan pengalaman belajar yang menunjukkan aktivitas peserta didik mengaplikasi pemahaman secara kontekstual atau kehidupan nyata (hidup, kehidupan, dan/atau penghidupan)."></textarea>
+                        </div>
+                        <div>
+                             <label class="input-label font-medium text-gray-800">Merefleksi</label>
+                             <textarea class="textarea-input" placeholder="Tuliskan kegiatan yang mampu memfasilitasi peserta didik untuk: a. mengevaluasi dan memaknai proses serta hasil dari tindakan atau praktik nyata yang telah mereka lakukan dan menentukan tindaklanjut ke depan. b. mengelola proses belajarnya secara mandiri."></textarea>
+                        </div>
                     </div>
-                    <div>
-                        <label class="input-label font-medium text-blue-700">Tahap 1: MEMAHAMI</label>
-                        <textarea class="textarea-input mb-4" placeholder="Jelaskan aktivitas murid untuk membangun pemahaman konsep (mengamati, membaca, diskusi awal, dll.)."></textarea>
-                    </div>
-                    <div>
-                        <label class="input-label font-medium text-blue-700">Tahap 2: MENGAPLIKASI</label>
-                        <textarea class="textarea-input mb-4" placeholder="Jelaskan aktivitas murid untuk menerapkan pemahaman dalam konteks nyata (mengerjakan LKPD, simulasi, proyek, dll.)."></textarea>
-                    </div>
-                    <div>
-                        <label class="input-label font-medium text-blue-700">Tahap 3: MEREFLEKSI</label>
-                        <textarea class="textarea-input mb-4" placeholder="Jelaskan aktivitas murid untuk mengevaluasi proses dan hasil belajar (presentasi, diskusi pleno, umpan balik, dll.)."></textarea>
-                    </div>
-                    <div>
-                        <label class="input-label">Kegiatan Penutup</label>
-                        <textarea class="textarea-input" placeholder="Contoh: Kesimpulan, penguatan, info pertemuan berikutnya."></textarea>
-                    </div>
-                </div>
+                </div></div>
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">PENUTUP (opsional)</label><textarea class="textarea-input" placeholder="Tahap akhir dalam proses pembelajaran yang bertujuan memberikan umpan balik yang konstruktif kepada siswa atas pengalaman belajar yang telah dilakukan, menyimpulkan pembelajaran, dan siswa terlibat dalam perencanaan pembelajaran selanjutnya."></textarea></div></div>
             </div>
-        </section>
+        </div>
 
-        <!-- SECTION 4: ASESMEN -->
-        <section id="asesmen" class="section-card scroll-mt-24">
-            <h2 class="section-title">D. Rencana Asesmen</h2>
-            <p class="mb-6 text-gray-600">Rencanakan asesmen yang akan digunakan untuk mengukur ketercapaian tujuan pembelajaran dan memberikan umpan balik yang konstruktif.</p>
-            <div class="space-y-6">
-                 <div>
-                    <label class="input-label">Asesmen Formatif (Proses Pembelajaran)</label>
-                    <textarea class="textarea-input" placeholder="Jelaskan teknik, bentuk, dan instrumen asesmen formatif yang digunakan untuk memantau proses belajar murid."></textarea>
-                </div>
-                 <div>
-                    <label class="input-label">Asesmen Sumatif (Akhir Pembelajaran)</label>
-                    <textarea class="textarea-input" placeholder="Jelaskan teknik, bentuk, dan instrumen asesmen sumatif yang digunakan untuk mengukur ketercapaian tujuan di akhir pembelajaran."></textarea>
-                </div>
+        <div id="asesmen" class="rpm-section scroll-mt-24">
+            <div class="rpm-category"><h3>Asesmen</h3></div>
+            <div class="w-full">
+                <div class="rpm-row"><div class="rpm-content w-full"><label class="input-label">Asesmen Pembelajaran</label><textarea class="textarea-input" placeholder="Tuliskan teknik dan instrumen penilaian yang digunakan pada awal, proses, dan akhir pembelajaran. Asesmen dalam pembelajaran mendalam dilaksanakan sebagai asesmen terintegrasi dengan pembelajaran (embedded assessment)."></textarea></div></div>
             </div>
-        </section>
+        </div>
 
-        <!-- SECTION 5: PENGESAHAN -->
         <section id="pengesahan" class="section-card scroll-mt-24">
-            <h2 class="section-title">E. Lembar Pengesahan</h2>
-            <div class="flex justify-end pt-8">
-                <div class="text-left">
-                     <p>Purbalingga, ..........................</p>
-                </div>
-            </div>
+            <h2 class="section-title">Lembar Pengesahan</h2>
+            <div class="flex justify-end pt-8"><div class="text-left"><p>Purbalingga, ..........................</p></div></div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 text-center">
                 <div>
-                    <p>Mengetahui,</p>
-                    <p class="font-semibold">Kepala Sekolah</p>
-                    <div class="h-24"></div> <!-- Spacer for signature -->
+                    <p>Mengetahui,</p><p class="font-semibold">Kepala Sekolah</p>
+                    <div class="h-24"></div>
                     <p class="font-semibold underline">Maryono S.Pd, M.Si</p>
                     <p class="text-sm">NIP. 19660701 2000121002</p>
                 </div>
                 <div>
-                     <p><br/></p>
-                    <p class="font-semibold">Waka Kurikulum</p>
-                     <div class="h-24"></div> <!-- Spacer for signature -->
+                     <p><br/></p><p class="font-semibold">Waka Kurikulum</p>
+                     <div class="h-24"></div>
                     <p class="font-semibold underline">Satyo Nugroho, S.Kom</p>
                     <p class="text-sm">NIP. 197807142009031006</p>
                 </div>
                 <div>
-                    <p><br/></p> 
-                    <p class="font-semibold">Guru Mata Pelajaran</p>
-                     <div class="h-24"></div> <!-- Spacer for signature -->
+                    <p><br/></p><p class="font-semibold">Guru Mata Pelajaran</p>
+                     <div class="h-24"></div>
                     <p class="font-semibold underline" id="guru-name-signature">...................................</p>
                     <p class="text-sm" id="guru-nip-signature">NIP. .........................</p>
                 </div>
             </div>
         </section>
-
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('printBtn').addEventListener('click', function() {
-                window.print();
-            });
-
+            document.getElementById('printBtn').addEventListener('click', () => window.print());
             const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('main section');
-
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.4
-            };
-
+            const sections = document.querySelectorAll('main > div, main > section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
                         });
                     }
                 });
-            }, observerOptions);
-
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-            
+            }, { root: null, rootMargin: '0px', threshold: 0.4 });
+            sections.forEach(section => observer.observe(section));
             navLinks.forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
                 });
             });
-
-            // Sync teacher's name and NIP to signature block
             const namaGuruInput = document.getElementById('nama-guru');
             const nipGuruInput = document.getElementById('nip-guru');
             const guruNameSignature = document.getElementById('guru-name-signature');
             const guruNipSignature = document.getElementById('guru-nip-signature');
-
             namaGuruInput.addEventListener('input', (e) => {
-                const name = e.target.value;
-                guruNameSignature.textContent = name ? name : '...................................';
+                guruNameSignature.textContent = e.target.value || '...................................';
+            });
+            nipGuruInput.addEventListener('input', (e) => {
+                guruNipSignature.textContent = e.target.value ? `NIP. ${e.target.value}` : 'NIP. .........................';
             });
 
-            nipGuruInput.addEventListener('input', (e) => {
-                const nip = e.target.value;
-                guruNipSignature.textContent = nip ? `NIP. ${nip}` : 'NIP. .........................';
+            // Auto-resize textarea
+            const textareas = document.querySelectorAll('.textarea-input');
+            textareas.forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                }, false);
             });
         });
     </script>
-
 </body>
 </html>
 
