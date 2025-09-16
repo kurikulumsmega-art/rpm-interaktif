@@ -7,7 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Change Log:
-        - Added specific print styles to ensure signatures are visible when printing.
+        - Reverted signature block to a flexible layout to fix alignment issues.
+        - Ensured the signature block is centered and neat on all screen sizes.
     -->
     <style>
         body {
@@ -195,7 +196,11 @@
         @media print {
             body { font-size: 9pt; line-height: 1.2; background-color: white; }
             header, .action-buttons, .print-info, footer, .ai-button, #upload-signature-btn { display: none; }
-            main { padding: 0 !important; margin: 0 !important; }
+            main { 
+                padding: 0 !important; 
+                margin: 0 auto !important;
+                max-width: 18cm;
+            }
             h1 { font-size: 18pt; margin-bottom: 1rem !important; }
             .section-card, .rpm-section { box-shadow: none; border: 1px solid #cccccc; padding: 0.5rem; margin-bottom: 1rem; page-break-inside: avoid; }
             .rpm-row { border-bottom: 1px solid #cccccc; }
@@ -208,16 +213,14 @@
             .textarea-input { padding: 0.5rem; border: 1px dashed #d1d5db; }
             p, .input-label { color: black !important; }
 
-            /* -- FIX: Force signatures to show on print -- */
             #pengesahan img {
                 display: block !important;
-                max-height: 1.5cm !important; /* Use a physical unit for printing */
+                max-height: 1.5cm !important;
                 width: auto !important;
                 margin: 0 auto !important;
-                -webkit-print-color-adjust: exact; /* Ensure images are printed */
+                -webkit-print-color-adjust: exact;
                 color-adjust: exact;
             }
-             /* Ensure hidden signature stays hidden if not uploaded */
             #guru-signature-img.hidden {
                 display: none !important;
             }
@@ -348,8 +351,8 @@
         <section id="pengesahan" class="section-card scroll-mt-24">
             <h2 class="section-title">Lembar Pengesahan</h2>
             <div class="flex justify-end pt-4"><div class="text-left"><p id="signature-date">Purbalingga, ..........................</p></div></div>
-            <div class="flex flex-col md:flex-row justify-center pt-2 text-center gap-12">
-                <div class="flex-1">
+            <div class="flex flex-col md:flex-row justify-center items-start pt-2 text-center gap-8 md:gap-12">
+                <div class="w-full md:w-auto md:max-w-[260px] flex-1">
                     <p>Mengetahui,</p>
                     <p class="font-semibold">Kepala Sekolah</p>
                     <div class="h-16 relative flex items-center justify-center my-1">
@@ -358,8 +361,8 @@
                     <p class="font-semibold underline mt-1">Maryono S.Pd, M.Si</p>
                     <p class="text-sm">NIP. 19660701 2000121002</p>
                 </div>
-                <div class="flex-1">
-                    <p class="invisible">Placeholder</p>
+                <div class="w-full md:w-auto md:max-w-[260px] flex-1">
+                    <p class="invisible md:visible">Placeholder</p>
                     <p class="font-semibold">Waka Kurikulum</p>
                      <div class="h-16 relative flex items-center justify-center my-1">
                         <img src="https://i.ibb.co/6r09yC6/ttd-Kurikulum.png" alt="Tanda Tangan Waka Kurikulum" class="h-full">
@@ -367,8 +370,8 @@
                     <p class="font-semibold underline mt-1">Satyo Nugroho, S.Kom</p>
                     <p class="text-sm">NIP. 197807142009031006</p>
                 </div>
-                <div class="flex-1">
-                    <p class="invisible">Placeholder</p>
+                <div class="w-full md:w-auto md:max-w-[260px] flex-1">
+                    <p class="invisible md:visible">Placeholder</p>
                     <p class="font-semibold">Guru Mata Pelajaran</p>
                     <div class="h-16 relative flex items-center justify-center my-1">
                         <img id="guru-signature-img" class="hidden h-full" alt="Tanda Tangan Guru">
@@ -472,7 +475,10 @@
             const showConfirmationModal = (title, message, onConfirm) => {
                 confirmationModal.querySelector('#modalTitle').textContent = title;
                 confirmationModal.querySelector('#modalMessage').textContent = message;
-                confirmationModal.querySelector('#modalConfirmBtn').onclick = () => onConfirm();
+                confirmationModal.querySelector('#modalConfirmBtn').onclick = () => {
+                    onConfirm();
+                    hideConfirmationModal(); // Hide modal after confirm
+                };
                 confirmationModal.classList.add('visible');
             };
 
@@ -566,7 +572,6 @@
                 nipGuruInput.dispatchEvent(new Event('input'));
                 textareas.forEach(resizeTextarea);
                 showToast('Semua isian telah dikosongkan.', false);
-                hideConfirmationModal();
             };
 
             // --- AI MODAL FUNCTIONS ---
@@ -576,8 +581,8 @@
                 aiModalTitle.textContent = `AI untuk ${title}`;
                 aiPromptInput.value = '';
                 aiLoading.classList.add('hidden');
-                aiModalGenerateBtn.classList.remove('hidden');
-                aiModalCancelBtn.classList.remove('hidden');
+                aiModalGenerateBtn.style.display = 'inline-flex';
+                aiModalCancelBtn.style.display = 'inline-flex';
                 aiModal.classList.add('visible');
             };
 
@@ -597,9 +602,9 @@
             const generateAiContent = async () => {
                 if (!currentAiTarget) return;
 
-                aiLoading.classList.remove('hidden');
-                aiModalGenerateBtn.classList.add('hidden');
-                aiModalCancelBtn.classList.add('hidden');
+                aiLoading.style.display = 'flex';
+                aiModalGenerateBtn.style.display = 'none';
+                aiModalCancelBtn.style.display = 'none';
 
                 const context = getGenerationContext();
                 const userPrompt = aiPromptInput.value;
@@ -620,7 +625,8 @@
                 }
 
                 try {
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-0.5-20:generateContent`;
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                     const needsJson = ["Desain Pembelajaran", "Kegiatan Inti Pembelajaran", "Rancangan Asesmen"].includes(title);
                     
                     const payload = {
@@ -745,10 +751,7 @@
                 setSignatureDate();
                 setFooterYear();
                 if (localStorage.getItem(STORAGE_KEY)) {
-                    showConfirmationModal('Progres Ditemukan', 'Terdapat progres yang tersimpan sebelumnya. Apakah Anda ingin memuatnya?', () => {
-                        loadData();
-                        hideConfirmationModal();
-                    });
+                    showConfirmationModal('Progres Ditemukan', 'Terdapat progres yang tersimpan sebelumnya. Apakah Anda ingin memuatnya?', loadData);
                 }
             };
 
@@ -757,15 +760,4 @@
     </script>
 </body>
 </html>
-
-
-
-" in rpm_builder_enhanced.html. 
-I am getting the following errors when I run the code:
-
-[02:16:32 PM] [GLOBAL] SyntaxError: Unexpected end of input
-
-Can you fix this?
-For intro and outro, respond in the Indonesian language\.
-
 
