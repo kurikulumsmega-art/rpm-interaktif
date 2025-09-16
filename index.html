@@ -204,7 +204,7 @@
                     <a href="#pengesahan" class="nav-link">Pengesahan</a>
                     <div class="print-button-container flex flex-col items-end">
                         <button id="printBtn" class="print-button flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" /></svg>
                             Cetak
                         </button>
                          <p class="text-xs text-gray-500 mt-1 print-info">Gunakan <kbd class="font-sans border rounded px-1 text-gray-600">Ctrl+P</kbd> jika tombol tidak berfungsi.</p>
@@ -361,7 +361,7 @@
                         </div>
                         <div>
                              <label class="input-label font-medium text-gray-800">Merefleksi</label>
-                             <textarea class="textarea-input" placeholder="Tuliskan kegiatan yang mampu memfasilitasi peserta didik untuk: a. mengevaluasi dan memaknai proses serta hasil dari tindakan atau praktik nyata yang telah mereka lakukan dan menentukan tindaklanjut ke depan. b. mengelola proses belajarnya secara mandiri."></textarea>
+                              <textarea class="textarea-input" placeholder="Tuliskan kegiatan yang mampu memfasilitasi peserta didik untuk: a. mengevaluasi dan memaknai proses serta hasil dari tindakan atau praktik nyata yang telah mereka lakukan dan menentukan tindaklanjut ke depan. b. mengelola proses belajarnya secara mandiri."></textarea>
                         </div>
                     </div>
                 </div></div>
@@ -399,22 +399,28 @@
         <section id="pengesahan" class="section-card scroll-mt-24">
             <h2 class="section-title">Lembar Pengesahan</h2>
             <div class="flex justify-end pt-8"><div class="text-left"><p>Purbalingga, ..........................</p></div></div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 text-center">
-                <div>
-                    <p>Mengetahui,</p><p class="font-semibold">Kepala Sekolah</p>
+            <div class="flex flex-col md:flex-row justify-between pt-4 text-center gap-8">
+                <!-- Kolom 1: Kepala Sekolah -->
+                <div class="flex-1">
+                    <p>Mengetahui,</p>
+                    <p class="font-semibold">Kepala Sekolah</p>
                     <div class="h-24"></div>
                     <p class="font-semibold underline">Maryono S.Pd, M.Si</p>
                     <p class="text-sm">NIP. 19660701 2000121002</p>
                 </div>
-                <div>
-                     <p><br/></p><p class="font-semibold">Waka Kurikulum</p>
-                     <div class="h-24"></div>
+                <!-- Kolom 2: Waka Kurikulum -->
+                <div class="flex-1">
+                    <p class="invisible">Placeholder</p> <!-- Spacer for vertical alignment -->
+                    <p class="font-semibold">Waka Kurikulum</p>
+                    <div class="h-24"></div>
                     <p class="font-semibold underline">Satyo Nugroho, S.Kom</p>
                     <p class="text-sm">NIP. 197807142009031006</p>
                 </div>
-                <div>
-                    <p><br/></p><p class="font-semibold">Guru Mata Pelajaran</p>
-                     <div class="h-24"></div>
+                <!-- Kolom 3: Guru -->
+                <div class="flex-1">
+                    <p class="invisible">Placeholder</p> <!-- Spacer for vertical alignment -->
+                    <p class="font-semibold">Guru Mata Pelajaran</p>
+                    <div class="h-24"></div>
                     <p class="font-semibold underline" id="guru-name-signature">...................................</p>
                     <p class="text-sm" id="guru-nip-signature">NIP. .........................</p>
                 </div>
@@ -467,7 +473,3 @@
     </script>
 </body>
 </html>
-
-
-
-
