@@ -7,8 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Change Log:
-        - Embedded signatures for the Headmaster and Vice Principal of Curriculum directly into the HTML.
-        - The user (teacher) only needs to upload their own signature.
+        - Added specific print styles to ensure signatures are visible when printing.
     -->
     <style>
         body {
@@ -208,6 +207,20 @@
             .text-input, .textarea-input { border: none; padding: 0; background-color: #f9fafb !important; -webkit-print-color-adjust: exact; color-adjust: exact; border-radius: 0; min-height: auto; color: black !important; height: auto !important; overflow: visible !important; }
             .textarea-input { padding: 0.5rem; border: 1px dashed #d1d5db; }
             p, .input-label { color: black !important; }
+
+            /* -- FIX: Force signatures to show on print -- */
+            #pengesahan img {
+                display: block !important;
+                max-height: 1.5cm !important; /* Use a physical unit for printing */
+                width: auto !important;
+                margin: 0 auto !important;
+                -webkit-print-color-adjust: exact; /* Ensure images are printed */
+                color-adjust: exact;
+            }
+             /* Ensure hidden signature stays hidden if not uploaded */
+            #guru-signature-img.hidden {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -335,7 +348,7 @@
         <section id="pengesahan" class="section-card scroll-mt-24">
             <h2 class="section-title">Lembar Pengesahan</h2>
             <div class="flex justify-end pt-4"><div class="text-left"><p id="signature-date">Purbalingga, ..........................</p></div></div>
-            <div class="flex flex-col md:flex-row justify-between pt-2 text-center gap-8">
+            <div class="flex flex-col md:flex-row justify-center pt-2 text-center gap-12">
                 <div class="flex-1">
                     <p>Mengetahui,</p>
                     <p class="font-semibold">Kepala Sekolah</p>
@@ -745,5 +758,14 @@
 </body>
 </html>
 
+
+
+" in rpm_builder_enhanced.html. 
+I am getting the following errors when I run the code:
+
+[02:16:32 PM] [GLOBAL] SyntaxError: Unexpected end of input
+
+Can you fix this?
+For intro and outro, respond in the Indonesian language\.
 
 
