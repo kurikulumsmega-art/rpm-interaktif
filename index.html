@@ -7,11 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- 
-        Change Log (FIX):
-        - Added an "API Key" settings modal and button to allow users to input their own Google AI Studio API key.
-        - The application now saves the key to localStorage and uses it for all AI requests.
-        - If the key is missing, the app will now prompt the user to set it.
-        - This change allows the AI features to work on any static hosting platform (like Vercel, GitHub Pages, etc.).
+        Change Log (Final):
+        - Removed all integrated AI functionality (API keys, AI buttons, and related modals/JavaScript).
+        - The application is now a clean, static form for manual input.
+        - A separate 'prompts.md' file is provided for users to manually generate content with their preferred AI tool.
     -->
     <style>
         body {
@@ -136,16 +135,6 @@
         .action-button.secondary:hover { background-color: #c7d2fe; }
         .action-button.danger { background-color: #fee2e2; color: #991b1b; border-color: #fecaca; }
         .action-button.danger:hover { background-color: #fecaca; }
-        .ai-button {
-            background-color: #ede9fe;
-            color: #5b21b6;
-            font-size: 0.875rem;
-            font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            transition: background-color 0.2s;
-        }
-        .ai-button:hover { background-color: #ddd6fe; }
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -184,18 +173,6 @@
             z-index: 100;
         }
         #toast.show { transform: translateX(-50%) translateY(0); }
-        .loader {
-            width: 24px;
-            height: 24px;
-            border: 3px solid #ddd;
-            border-bottom-color: #5b21b6;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-        }
-        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
         .autocomplete-item {
             padding: 0.75rem;
             cursor: pointer;
@@ -258,14 +235,6 @@
                     <a href="#lampiran" class="nav-link">Lampiran</a>
                 </div>
                 <div class="action-buttons flex items-center gap-2">
-                     <button id="apiKeyBtn" title="Pengaturan Kunci API" class="action-button secondary">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l1-1 1-1 .257-.257A6 6 0 1118 8zm-6-4a4 4 0 100 8 4 4 0 000-8z" clip-rule="evenodd" /></svg>
-                        <span class="hidden sm:inline">Kunci API</span>
-                    </button>
-                    <button id="generateAllBtn" title="Isi Otomatis Semua Bagian Berdasarkan Tujuan Pembelajaran" class="action-button bg-violet-600 hover:bg-violet-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2.586l-1.707 1.707A.5.5 0 0110 14v-1H5V5z" /></svg>
-                        <span class="hidden sm:inline">Isi Otomatis</span>
-                    </button>
                      <button id="saveBtn" title="Simpan Progres" class="action-button secondary">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V4zm3 0a1 1 0 011-1h2a1 1 0 011 1v3a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" /></svg>
                          <span class="hidden sm:inline">Simpan</span>
@@ -286,7 +255,7 @@
     <main class="container mx-auto px-4 lg:px-8 py-8">
         <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Rencana Pembelajaran Mendalam</h1>
 
-        <!-- Bagian Informasi Umum (Konteks untuk AI) -->
+        <!-- Bagian Informasi Umum -->
         <div id="umum" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Informasi Umum</h3></div>
             <div class="w-full">
@@ -306,25 +275,13 @@
             <div class="w-full">
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="identifikasi-peserta" class="input-label !mb-0">Peserta Didik</label>
-                            <button data-target="identifikasi-peserta" data-prompt-key="identifikasi_murid" data-title="Identifikasi Peserta Didik" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="identifikasi-peserta" class="input-label">Peserta Didik</label>
                         <textarea id="identifikasi-peserta" class="textarea-input" placeholder="Jelaskan hasil identifikasi kesiapan peserta didik, minat, latar belakang, dan kebutuhan belajar, serta aspek lainnya."></textarea>
                     </div>
                 </div>
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="identifikasi-materi" class="input-label !mb-0">Materi Pelajaran</label>
-                            <button data-target="identifikasi-materi" data-prompt-key="identifikasi_materi" data-title="Identifikasi Materi" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="identifikasi-materi" class="input-label">Materi Pelajaran</label>
                         <textarea id="identifikasi-materi" class="textarea-input" placeholder="Jelaskan identifikasi materi pelajaran faktual, konseptual, prosedural..."></textarea>
                     </div>
                 </div>
@@ -332,7 +289,7 @@
             </div>
         </div>
 
-        <!-- Bagian Desain Pembelajaran (RESTRUCTURED) -->
+        <!-- Bagian Desain Pembelajaran -->
         <div id="desain" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Desain Pembelajaran</h3></div>
             <div class="w-full">
@@ -344,178 +301,94 @@
                 </div>
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="desain-lintas-disiplin" class="input-label !mb-0">Lintas Disiplin Ilmu</label>
-                            <button data-target="desain-lintas-disiplin" data-prompt-key="lintas_disiplin" data-title="Lintas Disiplin Ilmu" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="desain-lintas-disiplin" class="input-label">Lintas Disiplin Ilmu</label>
                         <textarea id="desain-lintas-disiplin" class="textarea-input" placeholder="Jelaskan integrasi dengan mata pelajaran lain..."></textarea>
                     </div>
                 </div>
                  <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="desain-tujuan" class="input-label !mb-0">Tujuan Pembelajaran</label>
-                             <button data-target="desain-tujuan" data-prompt-key="tujuan_pembelajaran" data-title="Tujuan Pembelajaran" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="desain-tujuan" class="input-label">Tujuan Pembelajaran</label>
                         <textarea id="desain-tujuan" class="textarea-input" placeholder="Tuliskan tujuan pembelajaran yang spesifik dan terukur (ABCD)..."></textarea>
                     </div>
                 </div>
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="desain-topik" class="input-label !mb-0">Topik Pembelajaran</label>
-                            <button data-target="desain-topik" data-prompt-key="topik_pembelajaran" data-title="Topik Pembelajaran" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="desain-topik" class="input-label">Topik Pembelajaran</label>
                         <textarea id="desain-topik" class="textarea-input" placeholder="Rekomendasi topik per pertemuan..."></textarea>
                     </div>
                 </div>
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="desain-pedagogis" class="input-label !mb-0">Praktik Pedagogis</label>
-                             <button data-target="desain-pedagogis" data-prompt-key="praktik_pedagogis" data-title="Praktik Pedagogis" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="desain-pedagogis" class="input-label">Praktik Pedagogis</label>
                         <textarea id="desain-pedagogis" class="textarea-input" placeholder="Rekomendasi Model/Strategi/Metode per pertemuan..."></textarea>
                     </div>
                 </div>
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="desain-kemitraan" class="input-label !mb-0">Kemitraan Pembelajaran</label>
-                            <button data-target="desain-kemitraan" data-prompt-key="kemitraan_pembelajaran" data-title="Kemitraan Pembelajaran" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="desain-kemitraan" class="input-label">Kemitraan Pembelajaran</label>
                         <textarea id="desain-kemitraan" class="textarea-input" placeholder="Rekomendasi mitra kolaborasi (guru, orang tua, komunitas)..."></textarea>
                     </div>
                 </div>
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="desain-lingkungan" class="input-label !mb-0">Lingkungan Pembelajaran</label>
-                            <button data-target="desain-lingkungan" data-prompt-key="lingkungan_pembelajaran" data-title="Lingkungan Pembelajaran" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="desain-lingkungan" class="input-label">Lingkungan Pembelajaran</label>
                         <textarea id="desain-lingkungan" class="textarea-input" placeholder="Desain lingkungan belajar (fisik, virtual, budaya)..."></textarea>
                     </div>
                 </div>
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="desain-digital" class="input-label !mb-0">Pemanfaatan Digital</label>
-                            <button data-target="desain-digital" data-prompt-key="pemanfaatan_digital" data-title="Pemanfaatan Digital" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="desain-digital" class="input-label">Pemanfaatan Digital</label>
                         <textarea id="desain-digital" class="textarea-input" placeholder="Rekomendasi 3 jenis pemanfaatan teknologi digital..."></textarea>
                     </div>
                 </div>
             </div>
         </div>
        
-        <!-- Bagian Pengalaman Belajar (RESTRUCTURED) -->
+        <!-- Bagian Pengalaman Belajar -->
         <div id="pengalaman" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Pengalaman Belajar</h3></div>
             <div class="w-full">
-                <!-- AWAL -->
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="pengalaman-awal" class="input-label !mb-0 font-medium text-gray-800">Langkah-langkah Pembelajaran: AWAL</label>
-                            <button data-target="pengalaman-awal" data-prompt-key="pengalaman_awal" data-title="Kegiatan Awal" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="pengalaman-awal" class="input-label font-medium text-gray-800">Langkah-langkah Pembelajaran: AWAL</label>
                         <textarea id="pengalaman-awal" class="textarea-input" placeholder="Kegiatan awal (apersepsi, motivasi, dll.) selama 15 menit..."></textarea>
                     </div>
                 </div>
-                <!-- INTI -->
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="pengalaman-inti" class="input-label !mb-0 font-medium text-gray-800">Langkah-langkah Pembelajaran: INTI</label>
-                            <button data-target="pengalaman-inti" data-prompt-key="pengalaman_inti" data-title="Kegiatan Inti" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="pengalaman-inti" class="input-label font-medium text-gray-800">Langkah-langkah Pembelajaran: INTI</label>
                         <p class="text-sm text-gray-500 mb-4">Aktivitas pembelajaran mendalam dengan tahapan Memahami, Mengaplikasikan, dan Merefleksi.</p>
                         <textarea id="pengalaman-inti" class="textarea-input" placeholder="Buatkan aktivitas pembelajaran mendalam yang mencakup tahapan Memahami, Mengaplikasikan, dan Merefleksi..."></textarea>
                     </div>
                 </div>
-                <!-- PENUTUP -->
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="pengalaman-penutup" class="input-label !mb-0 font-medium text-gray-800">Langkah-langkah Pembelajaran: PENUTUP</label>
-                            <button data-target="pengalaman-penutup" data-prompt-key="pengalaman_penutup" data-title="Kegiatan Penutup" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="pengalaman-penutup" class="input-label font-medium text-gray-800">Langkah-langkah Pembelajaran: PENUTUP</label>
                         <textarea id="pengalaman-penutup" class="textarea-input" placeholder="Kegiatan penutup (simpulan, umpan balik, doa) selama 5 menit..."></textarea>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Bagian Asesmen (RESTRUCTURED) -->
+        <!-- Bagian Asesmen -->
         <div id="asesmen" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Asesmen Pembelajaran</h3></div>
             <div class="w-full">
-                 <!-- Asesmen Awal -->
                  <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="asesmen-awal" class="input-label !mb-0 font-medium text-gray-800">Asesmen pada Awal Pembelajaran</label>
-                            <button data-target="asesmen-awal" data-prompt-key="asesmen_awal" data-title="Asesmen Awal" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="asesmen-awal" class="input-label font-medium text-gray-800">Asesmen pada Awal Pembelajaran</label>
                         <textarea id="asesmen-awal" class="textarea-input" placeholder="Jelaskan asesmen diagnostik untuk mengetahui kesiapan dan pengetahuan awal..."></textarea>
                     </div>
                 </div>
-                <!-- Asesmen Proses -->
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="asesmen-proses" class="input-label !mb-0 font-medium text-gray-800">Asesmen pada Proses Pembelajaran</label>
-                            <button data-target="asesmen-proses" data-prompt-key="asesmen_proses" data-title="Asesmen Proses" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="asesmen-proses" class="input-label font-medium text-gray-800">Asesmen pada Proses Pembelajaran</label>
                         <textarea id="asesmen-proses" class="textarea-input" placeholder="Jelaskan asesmen formatif (observasi, diskusi, rubrik) untuk memantau proses belajar..."></textarea>
                     </div>
                 </div>
-                <!-- Asesmen Akhir -->
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="asesmen-akhir" class="input-label !mb-0 font-medium text-gray-800">Asesmen pada Akhir Pembelajaran</label>
-                            <button data-target="asesmen-akhir" data-prompt-key="asesmen_akhir" data-title="Asesmen Akhir" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="asesmen-akhir" class="input-label font-medium text-gray-800">Asesmen pada Akhir Pembelajaran</label>
                         <textarea id="asesmen-akhir" class="textarea-input" placeholder="Jelaskan asesmen sumatif (tes, produk, kisi-kisi) untuk mengukur ketercapaian kompetensi..."></textarea>
                     </div>
                 </div>
@@ -558,72 +431,37 @@
             </div>
         </section>
 
-        <!-- Bagian Lampiran (NEW SECTION) -->
+        <!-- Bagian Lampiran -->
         <div id="lampiran" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Lampiran</h3></div>
             <div class="w-full">
-                 <!-- Asesmen Diagnostik Non-Kognitif -->
                  <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="lampiran-diagnostik" class="input-label !mb-0 font-medium text-gray-800">Asesmen Diagnostik Non-Kognitif</label>
-                            <button data-target="lampiran-diagnostik" data-prompt-key="lampiran_diagnostik" data-title="Asesmen Diagnostik Non-Kognitif" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="lampiran-diagnostik" class="input-label font-medium text-gray-800">Asesmen Diagnostik Non-Kognitif</label>
                         <textarea id="lampiran-diagnostik" class="textarea-input" placeholder="Instrumen untuk mengukur minat, motivasi, gaya belajar, dll..."></textarea>
                     </div>
                 </div>
-                <!-- Rubrik Diskusi -->
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="lampiran-rubrik-diskusi" class="input-label !mb-0 font-medium text-gray-800">Rubrik Penilaian Diskusi</label>
-                            <button data-target="lampiran-rubrik-diskusi" data-prompt-key="lampiran_rubrik_diskusi" data-title="Rubrik Diskusi" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="lampiran-rubrik-diskusi" class="input-label font-medium text-gray-800">Rubrik Penilaian Diskusi</label>
                         <textarea id="lampiran-rubrik-diskusi" class="textarea-input" placeholder="Rubrik untuk menilai kolaborasi, penyampaian pendapat, dan kerja sama..."></textarea>
                     </div>
                 </div>
-                <!-- Rubrik Presentasi -->
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="lampiran-rubrik-presentasi" class="input-label !mb-0 font-medium text-gray-800">Rubrik Penilaian Presentasi</label>
-                            <button data-target="lampiran-rubrik-presentasi" data-prompt-key="lampiran_rubrik_presentasi" data-title="Rubrik Presentasi" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="lampiran-rubrik-presentasi" class="input-label font-medium text-gray-800">Rubrik Penilaian Presentasi</label>
                         <textarea id="lampiran-rubrik-presentasi" class="textarea-input" placeholder="Rubrik untuk menilai kemampuan berbicara, bertanya, dan kontribusi kelompok..."></textarea>
                     </div>
                 </div>
-                <!-- LKPD -->
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="lampiran-lkpd" class="input-label !mb-0 font-medium text-gray-800">Lembar Kerja Peserta Didik (LKPD)</label>
-                            <button data-target="lampiran-lkpd" data-prompt-key="lampiran_lkpd" data-title="LKPD" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="lampiran-lkpd" class="input-label font-medium text-gray-800">Lembar Kerja Peserta Didik (LKPD)</label>
                         <textarea id="lampiran-lkpd" class="textarea-input" placeholder="LKPD lengkap dengan petunjuk, sintaks, dan tahapan memahami, mengaplikasikan, merefleksikan..."></textarea>
                     </div>
                 </div>
-                 <!-- Materi Ajar -->
                  <div class="rpm-row">
                     <div class="rpm-content w-full">
-                        <div class="flex justify-between items-center mb-2">
-                            <label for="lampiran-materi" class="input-label !mb-0 font-medium text-gray-800">Materi Ajar</label>
-                            <button data-target="lampiran-materi" data-prompt-key="lampiran_materi" data-title="Materi Ajar" class="ai-button flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" transform="rotate(45 10 10)"></path></svg>
-                                Buat dengan AI
-                            </button>
-                        </div>
+                        <label for="lampiran-materi" class="input-label font-medium text-gray-800">Materi Ajar</label>
                         <textarea id="lampiran-materi" class="textarea-input" placeholder="Materi ajar lengkap dengan judul, pendahuluan, isi, dan penutup..."></textarea>
                     </div>
                 </div>
@@ -634,7 +472,7 @@
     </main>
 
     <footer class="text-center py-8 text-gray-500 text-sm">
-        <p>RPM Interaktif dengan Bantuan AI.</p>
+        <p>RPM Interaktif.</p>
         <p>&copy; <span id="current-year"></span> SMK N 1 Purbalingga. All Rights Reserved.</p>
     </footer>
 
@@ -650,63 +488,13 @@
         </div>
     </div>
    
-    <!-- AI Generation Modal -->
-    <div id="aiModal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 id="aiModalTitle" class="text-xl font-bold text-violet-700 mb-2">Buat Konten dengan AI</h3>
-            <p class="text-gray-600 mb-4">Berikan beberapa kata kunci atau deskripsi singkat untuk membantu AI menghasilkan konten yang lebih sesuai.</p>
-            <div>
-                <label for="ai-prompt-input" class="input-label">Kata Kunci (opsional)</label>
-                <input type="text" id="ai-prompt-input" class="text-input" placeholder="Contoh: metode diskusi kelompok, studi kasus nyata...">
-            </div>
-            <div id="ai-loading" class="hidden items-center justify-center h-24 text-center"><div class="loader"></div><p class="ml-4 text-gray-600">Sedang memproses...</p></div>
-            <div class="flex justify-end gap-4 mt-6">
-                <button id="aiModalCancelBtn" class="action-button secondary">Batal</button>
-                <button id="aiModalGenerateBtn" class="action-button bg-violet-600 hover:bg-violet-700">Buat Konten</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- API Key Modal -->
-    <div id="apiKeyModal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Pengaturan Kunci API</h3>
-            <p class="text-gray-600 mb-4">Untuk menggunakan fitur AI, Anda memerlukan Kunci API dari Google AI Studio. Dapatkan kunci gratis Anda dan tempelkan di bawah ini.</p>
-            <div>
-                <label for="api-key-input" class="input-label">Kunci API Google AI Anda</label>
-                <input type="text" id="api-key-input" class="text-input" placeholder="Tempelkan Kunci API di sini...">
-                <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-sm text-blue-600 hover:underline mt-2 inline-block">Dapatkan Kunci API di sini</a>
-            </div>
-            <div class="flex justify-end gap-4 mt-6">
-                <button id="apiKeyCancelBtn" class="action-button secondary">Batal</button>
-                <button id="apiKeySaveBtn" class="action-button">Simpan</button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Bulk Loader Overlay -->
-    <div id="bulk-loader-overlay" class="modal-overlay">
-        <div class="modal-content text-center">
-            <div class="flex items-center justify-center">
-                <div class="loader"></div>
-                <p id="bulk-loader-message" class="ml-4 text-gray-600">Sedang memproses semua bagian...</p>
-            </div>
-            <p class="text-sm text-gray-500 mt-4">Mohon tunggu, ini mungkin memakan waktu sejenak.</p>
-        </div>
-    </div>
-
-
     <div id="toast"><p id="toastMessage"></p></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // --- CONSTANTS & STATE ---
             const STORAGE_KEY = 'rpmInteractiveData';
-            const API_KEY_STORAGE = 'googleAiApiKey';
-            let currentAiTarget = null;
-            let currentAiPromptKey = null;
-
+            
             const teacherData = {
                 "Dra. Sri Mularsih": "196706201994122001", "Drs. Fiva Widiarto": "196510231996011002", "Wahyu Budi Susapti, S.Pd, MM.": "197207291997022002",
                 "Marwoto, S.Pd, S.Kom": "196904082000121001", "Sri Endah Swarastuti, S.Pd": "197407022003122004", "Dra. Cukat Budi Rahayu": "196901121994032010",
@@ -734,37 +522,11 @@
                 "Triyanto, S.Pd.": "198411252025211021", "Inayatul Munawaroh, S.Pd.": "199301062025212023", "Danu Setio Aji, S.Pd.": "199310162025211021",
                 "Hera Dwi Suryandari, S.Pd.": "199312262025212012", "Slamet Suparman, S.Pd.": "-", "Devi Dwi Wahyuni, S.Pd.": "-", "Muhammad Idris Afandi, S.S., M.Pd.": "-"
             };
-
-            // --- PROMPT TEMPLATES (UPDATED) ---
-            const PROMPT_TEMPLATES = {
-                'identifikasi_murid': `Saya ingin menuliskan identifikasi murid Berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, saya mengidentifikasi kesiapan peserta didik dari aspek pengetahuan awal, minat belajar, dan kebutuhan individual. Identifikasi ini akan membantu saya menyusun strategi dan pendekatan pembelajaran yang tepat agar setiap siswa dapat mencapai kompetensi yang diharapkan. Sajikan dalam bentuk daftar poin. Hindari penggunaan format Markdown (seperti tanda bintang untuk tebal atau daftar).`,
-                'identifikasi_materi': `Saya ingin menuliskan identifikasi materi pelajaran berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, materi pelajaran mencakup pengetahuan faktual, konseptual, prosedural, dan metakognitif. Materi dirancang relevan dengan kehidupan nyata peserta didik dan aplikatif dalam berbagai konteks, serta memperkuat nilai karakter yang mendukung pembelajaran bermakna dan menyenangkan. Sajikan dalam bentuk daftar poin. Hindari penggunaan format Markdown.`,
-                'lintas_disiplin': `Saya ingin menuliskan lintas disiplin ilmu berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, pembelajaran dapat diintegrasikan lintas disiplin, khususnya dengan mata pelajaran yang mendukung penguatan pemahaman siswa secara holistik. Hal ini akan memperluas wawasan dan memberi makna kontekstual dalam pembelajaran. Sajikan dalam bentuk daftar poin. Hindari penggunaan format Markdown.`,
-                'tujuan_pembelajaran': `Anda adalah guru {MATA_PELAJARAN} kelas {KELAS} fase {FASE} yang akan merancang modul ajar pembelajaran mendalam berdasarkan capaian pembelajaran "{CAPAIAN_PEMBELAJARAN}", saya ingin menyusun tujuan pembelajaran yang merinci kompetensi yang harus dikuasai murid dalam beberapa pertemuan. Tujuan pembelajaran akan dirumuskan secara spesifik dan terukur dengan memuat subjek belajar (Audience), kata kerja operasional (Behavior), konteks (Condition), dan tingkat pencapaian (Degree). Kata kerja operasional mengandung level kognitif taksonomi bloom yaitu menerapkan dan menganalisis. Tujuan ini akan menjadi dasar dalam merancang aktivitas belajar, pengalaman bermakna, dan asesmen yang relevan. Buatkan Tujuan untuk pembelajaran beberapa pertemuan dan dituliskan setiap pertemuan. Sajikan dalam bentuk daftar poin. Hindari penggunaan format Markdown.`,
-                'topik_pembelajaran': `Tuliskan rekomendasi topik pembelajaran berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, topik pembelajaran ditentukan agar sesuai dengan kebutuhan peserta didik dan mampu mendorong pembelajaran yang mendalam serta kontekstual. Topik ini juga mendukung pengembangan kompetensi yang utuh secara pengetahuan, keterampilan, dan sikap. Buatkan topiknya untuk beberapa pertemuan. Sajikan dalam bentuk daftar poin. Hindari penggunaan format Markdown.`,
-                'praktik_pedagogis': `Berikan rekomendasi Model/Strategi/Metode berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, yang mendukung aktivitas belajar aktif, kolaboratif, dan bermakna. Uraikan berdasarkan kesesuaian dengan Tujuan Pembelajaran tersebut untuk beberapa pertemuan. Model pembelajaran akan digunakan untuk mendorong keterlibatan peserta didik secara optimal untuk mencapai dimensi profil lulusan penalaran kritis, kolaborasi, dan komunikasi. Sajikan dalam bentuk daftar poin, bukan uraian teks. Berikan rekomendasi untuk setiap pertemuan meliputi model, metode, strategi. Hindari penggunaan format Markdown.`,
-                'kemitraan_pembelajaran': `Tuliskan rekomendasi siapa saja mitra pembelajaran yang dapat berkolaborasi dan berperan berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, pembelajaran akan melibatkan kolaborasi dengan berbagai pihak seperti guru lain, orang tua, atau komunitas. Kemitraan ini bertujuan memperluas makna pembelajaran dan menumbuhkan keterlibatan peserta didik secara sosial. Sajikan dalam bentuk daftar poin, bukan uraian teks. Hindari penggunaan format Markdown.`,
-                'lingkungan_pembelajaran': `Tuliskan identifikasi lingkungan belajar berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, lingkungan pembelajaran dirancang agar mendukung interaksi aktif antara peserta didik melalui kombinasi ruang fisik, virtual, dan budaya belajar yang positif. Lingkungan ini akan mendorong siswa menjadi pembelajar yang reflektif dan mandiri. Sajikan dalam bentuk daftar poin, bukan uraian teks. Hindari penggunaan format Markdown.`,
-                'pemanfaatan_digital': `Berikan rekomendasi 3 jenis pemanfaatan digital berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, saya akan memanfaatkan teknologi digital untuk memperkuat interaksi, kolaborasi, serta asesmen dalam pembelajaran. Teknologi yang digunakan akan disesuaikan agar mendukung prinsip pembelajaran yang bermakna dan menggembirakan. Sajikan dalam bentuk daftar poin, bukan uraian teks. Hindari penggunaan format Markdown.`,
-                'pengalaman_awal': `Buatkan secara ringkas dan jelas langkah kegiatan awal dengan durasi 15 menit berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, Susunlah kegiatan awal yang menerapkan prinsip pembelajaran berkesadaran, bermakna, dan menggembirakan. Kegiatan ini mencakup apersepsi, motivasi, dan pengkondisian yang membangun semangat serta keterhubungan dengan pengalaman siswa. Awali dengan mengucap salam kemudian kegiatan berdoa dan mengecek kehadiran. Identifikasi prinsip pembelajaran yang digunakan. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'pengalaman_inti': `Buatkan Langkah-langkah kegiatan inti dengan durasi 260 menit (atau menyesuaikan kebutuhan) berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}. Prinsip pembelajaran yang digunakan tetap mindful (berkesadaran), meaningful (bermakna), dan joyful (menggembirakan) agar peserta didik aktif menggali makna dari materi. Identifikasi prinsip pembelajaran yang digunakan. Buatkan aktivitas pembelajaran pada pembelajaran mendalam dengan tahapan sebagai berikut: Memahami, Mengaplikasikan, Merefleksi. Aktivitas pembelajaran yang memuat memahami, mengaplikasikan, merefleksi memiliki kaitan dengan sintaks dan metode pembelajaran dari: {PRAKTIK_PEDAGOGIS}. Kegiatan pembelajaran inti untuk menggali Dimensi Profil Lulusan (DPL) yaitu kemampuan penalaran kritis, kolaborasi, dan komunikasi. DPL dituliskan diakhir kalimat pada aktivitas dengan diberi tanda kurung. Topik pembelajaran adalah {TOPIK}. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'pengalaman_penutup': `Buatkan secara ringkas dan jelas langkah kegiatan penutup dengan durasi 5 menit berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, penutup pembelajaran dilakukan dengan menyimpulkan materi, memberikan umpan balik, merencanakan kegiatan selanjutnya dan doa kemudian diakhiri salam. Identifikasi prinsip pembelajaran yang digunakan. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'asesmen_awal': `Buatkan asesmen awal berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN} untuk mengetahui kesiapan dan pengetahuan awal peserta didik. Buatkan 2 atau 3 soal beserta jawabannya (pilih antara esai, uraian, atau pilihan ganda) sesuai level kognitif menerapkan dan menganalisis. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'asesmen_proses': `Buatkan asesmen pada proses pembelajaran berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}. Fokus pada observasi dan diskusi. Buatkan satu contoh rubrik penilaian sederhana dalam bentuk tabel yang menilai 2 atau 3 aspek (misal: kolaborasi, komunikasi). Sertakan rangkuman singkat tentang jenis, bentuk, dan teknik asesmen formatif yang relevan di awal. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'asesmen_akhir': `Buatkan asesmen pada akhir pembelajaran berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}. Buatkan 5 soal Pilihan Ganda (PG) tingkat HOTS (Higher-Order Thinking Skills) beserta kunci jawabannya. Sertakan juga kisi-kisi singkat untuk kelima soal tersebut. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'lampiran_diagnostik': `Buatkan instrumen tes diagnostik non-kognitif peserta didik dalam format dokumen Word yang rapi, sistematis, dan siap cetak. Instrumen ini ditujukan untuk peserta didik jenjang {KELAS} – Fase {FASE} dan mencakup 10 aspek utama sebagai berikut: 1. Identitas Peserta Didik (Nama Lengkap, Nama Panggilan, Kelas, No Absen, Tanggal Pengisisan), 2. Petunjuk Pengisian, 3. Minat Belajar (4 pernyataan, skala Likert 1–5), 4. Motivasi Belajar (4 pernyataan, skala Likert 1–5), 5. Sikap terhadap Pembelajaran (4 pernyataan, skala Likert 1–5), 6. Gaya Belajar (1 pertanyaan pilihan ganda: Visual, Auditori, Kinestetik, dengan deskripsi singkat untuk tiap pilihan), 7. Kecerdasan Emosional (4 pernyataan, skala Likert 1–5), 8. Penyesuaian Sosial (4 pernyataan, skala Likert 1–5), 9. Relasi Sosial dalam Lingkup Keluarga (4 pernyataan, skala Likert 1–5), 10. Kebiasaan Belajar di Rumah (4 pernyataan, skala Likert 1–5), 11. Refleksi Diri (3 pertanyaan isian singkat terbuka). Formatkan bagian skala Likert dalam bentuk tabel agar mudah dibaca dan diisi, dengan kolom: Sangat Tidak Setuju – Tidak Setuju – Netral – Setuju – Sangat Setuju. Gunakan bahasa yang sesuai dengan jenjang dan usia peserta didik, serta susun dengan heading dan subjudul yang jelas untuk tiap bagian. Tambahkan: Judul di bagian atas dokumen : INSTRUMEN TES DIAGNOSTIK NON-KOGNITIF PESERTA DIDIK, Catatan penutup untuk guru, tentang bagaimana hasil instrumen ini dapat digunakan untuk merancang pembelajaran berdiferensiasi, serta mendukung komunikasi antara sekolah dan keluarga. Formatkan hasil akhir dalam bentuk teks yang siap disalin dan tanpa Markdown.`,
-                'lampiran_rubrik_diskusi': `Berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, saya ingin membuat rubrik penilaian untuk aktivitas diskusi yang menilai kemampuan peserta didik dalam berkolaborasi, menyampaikan pendapat, memunculkan ide, serta bekerja sama secara aktif dalam kelompok. Rubrik disusun dalam bentuk tabel yang memuat aspek penilaian, indikator, skala penilaian (1–5), serta deskripsi kinerja peserta didik pada setiap tingkat pencapaian. Penilaian ini digunakan untuk mengukur keterampilan komunikasi, kerja sama tim, dan partisipasi aktif peserta didik dalam proses pembelajaran. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'lampiran_rubrik_presentasi': `Berdasarkan tujuan pembelajaran {TUJUAN_PEMBELAJARAN}, saya ingin menyusun rubrik penilaian untuk aktivitas presentasi yang menilai kemampuan peserta didik dalam berbicara di depan umum, keberanian mengajukan pertanyaan terhadap hasil kerja kelompok lain, serta kontribusi dalam memaksimalkan kerja kelompok. Rubrik disusun dalam format tabel yang mencakup aspek penilaian, indikator ketercapaian, skala penilaian (1–5), dan deskripsi performa pada setiap tingkat. Penilaian ini bertujuan mengukur keterampilan komunikasi, keberanian, serta akuntabilitas peserta didik dalam kegiatan presentasi. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'lampiran_lkpd': `Anda adalah seorang Guru {MATA_PELAJARAN} kelas {KELAS} fase {FASE}. Buatkan Lembar Kerja Peserta Didik (LKPD) yang lengkap dan terstruktur berdasarkan sintaks pembelajaran {PRAKTIK_PEDAGOGIS}, dengan topik {TOPIK}. Tujuan pembelajaran yang menjadi acuan adalah {TUJUAN_PEMBELAJARAN}. LKPD ini bertujuan untuk mengembangkan dimensi profil lulusan yang relevan. LKPD harus mencakup bagian-bagian berikut secara lengkap: Identitas diri di LKPD: nama peserta didik, mata pelajaran, no absen, kelas, tanggal. Petunjuk penggunaan LKPD: berisi instruksi langkah-langkah mengerjakan, alat yang dibutuhkan, dan cara menjawab. Sintaks Pembelajaran, tuliskan tahapan kegiatan belajar sesuai sintaks, lalu berikan aktivitas siswa dan kolom untuk siswa mengerjakan. Pengalaman Belajar Mendalam, mencakup: Memahami: sajikan materi, gambar, atau teks ringkas yang harus diamati/dibaca, lalu berikan pertanyaan pemahaman (minimal 3 soal). Mengaplikasikan: buat tugas kasus nyata yang sesuai konteks kehidupan siswa, berikan instruksi kerja yang jelas, dan ruang jawaban siswa. Merefleksikan: berikan pertanyaan refleksi (2–3 soal) yang menuntun siswa untuk meninjau proses belajarnya, kesulitan yang dihadapi, serta rencana perbaikan atau tindak lanjut. Bagian Penutup: ucapan penyemangat, catatan guru (opsional), serta kolom cek pemahaman diri siswa (checklist atau skala sederhana). Gunakan bahasa yang komunikatif, sesuai jenjang, dan dorong pembelajaran aktif, bermakna, berkesadaran, dan menggembirakan. LKPD harus muncul secara utuh dengan isi yang lengkap, bukan hanya berupa kerangka atau daftar isi. Sajikan dalam format teks biasa tanpa Markdown.`,
-                'lampiran_materi': `Anda adalah seorang Guru {MATA_PELAJARAN} kelas {KELAS} fase {FASE}. Buatkan materi ajar lengkap dengan topik {TOPIK} dan mengacu pada tujuan pembelajaran {TUJUAN_PEMBELAJARAN}. Materi ajar harus mendukung pengembangan dimensi profil lulusan yang relevan. Materi ajar harus ditulis secara utuh, mencakup: Judul dan Tujuan Pembelajaran di bagian awal. Pendahuluan atau Apersepsi: paragraf pembuka yang menghubungkan materi dengan kehidupan nyata siswa atau pengetahuan sebelumnya. Isi Materi: jelaskan secara sistematis konsep utama, fakta, prosedur, atau prinsip yang perlu dipahami siswa. Sertakan contoh konkret, ilustrasi, atau analogi. Tugas Ringan atau Pemantik Diskusi: berikan 2–3 pertanyaan atau tugas singkat untuk menguji pemahaman awal. Penutup dan Refleksi Singkat: rangkuman poin penting dan ajakan untuk berpikir kritis atau melanjutkan eksplorasi. Gunakan gaya bahasa yang komunikatif, sesuai dengan jenjang usia peserta didik, serta dukung pembelajaran aktif, kontekstual, dan menyenangkan. Materi ajar harus bisa digunakan langsung oleh guru untuk kegiatan belajar di kelas maupun pembelajaran mandiri. Sajikan dalam format teks biasa tanpa Markdown.`
-            };
             
             // --- DOM Element Selection ---
             const printBtn = document.getElementById('printBtn');
             const saveBtn = document.getElementById('saveBtn');
             const clearBtn = document.getElementById('clearBtn');
-            const generateAllBtn = document.getElementById('generateAllBtn');
-            const apiKeyBtn = document.getElementById('apiKeyBtn');
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('main > div, main > section');
             const namaGuruInput = document.getElementById('nama-guru');
@@ -780,45 +542,9 @@
             const uploadSignatureBtn = document.getElementById('upload-signature-btn');
             const signatureUploadInput = document.getElementById('signature-upload-input');
             const guruSignatureImg = document.getElementById('guru-signature-img');
-
-            const aiButtons = document.querySelectorAll('.ai-button');
-            const aiModal = document.getElementById('aiModal');
-            const aiModalTitle = document.getElementById('aiModalTitle');
-            const aiModalGenerateBtn = document.getElementById('aiModalGenerateBtn');
-            const aiModalCancelBtn = document.getElementById('aiModalCancelBtn');
-            const aiPromptInput = document.getElementById('ai-prompt-input');
-            const aiLoading = document.getElementById('ai-loading');
-
-            const apiKeyModal = document.getElementById('apiKeyModal');
-            const apiKeyInput = document.getElementById('api-key-input');
-            const apiKeySaveBtn = document.getElementById('apiKeySaveBtn');
-            const apiKeyCancelBtn = document.getElementById('apiKeyCancelBtn');
            
             const toast = document.getElementById('toast');
             const autocompleteList = document.getElementById('autocomplete-list');
-            const bulkLoaderOverlay = document.getElementById('bulk-loader-overlay');
-
-            const SECTIONS_TO_GENERATE = [
-                { promptKey: 'identifikasi_murid', target: 'identifikasi-peserta', title: 'Identifikasi Murid' },
-                { promptKey: 'identifikasi_materi', target: 'identifikasi-materi', title: 'Identifikasi Materi' },
-                { promptKey: 'lintas_disiplin', target: 'desain-lintas-disiplin', title: 'Lintas Disiplin' },
-                { promptKey: 'topik_pembelajaran', target: 'desain-topik', title: 'Topik Pembelajaran' },
-                { promptKey: 'praktik_pedagogis', target: 'desain-pedagogis', title: 'Praktik Pedagogis' },
-                { promptKey: 'kemitraan_pembelajaran', target: 'desain-kemitraan', title: 'Kemitraan' },
-                { promptKey: 'lingkungan_pembelajaran', target: 'desain-lingkungan', title: 'Lingkungan Belajar' },
-                { promptKey: 'pemanfaatan_digital', target: 'desain-digital', title: 'Pemanfaatan Digital' },
-                { promptKey: 'pengalaman_awal', target: 'pengalaman-awal', title: 'Kegiatan Awal' },
-                { promptKey: 'pengalaman_inti', target: 'pengalaman-inti', title: 'Kegiatan Inti' },
-                { promptKey: 'pengalaman_penutup', target: 'pengalaman-penutup', title: 'Kegiatan Penutup' },
-                { promptKey: 'asesmen_awal', target: 'asesmen-awal', title: 'Asesmen Awal' },
-                { promptKey: 'asesmen_proses', target: 'asesmen-proses', title: 'Asesmen Proses' },
-                { promptKey: 'asesmen_akhir', target: 'asesmen-akhir', title: 'Asesmen Akhir' },
-                { promptKey: 'lampiran_diagnostik', target: 'lampiran-diagnostik', title: 'Lampiran Diagnostik' },
-                { promptKey: 'lampiran_rubrik_diskusi', target: 'lampiran-rubrik-diskusi', title: 'Lampiran Rubrik Diskusi' },
-                { promptKey: 'lampiran_rubrik_presentasi', target: 'lampiran-rubrik-presentasi', title: 'Lampiran Rubrik Presentasi' },
-                { promptKey: 'lampiran_lkpd', target: 'lampiran-lkpd', title: 'Lampiran LKPD' },
-                { promptKey: 'lampiran_materi', target: 'lampiran-materi', title: 'Lampiran Materi Ajar' },
-            ];
            
             // --- UTILITY FUNCTIONS ---
             const showToast = (message, isSuccess = true) => {
@@ -839,12 +565,6 @@
             };
 
             const hideConfirmationModal = () => confirmationModal.classList.remove('visible');
-            
-            const showApiKeyModal = () => {
-                apiKeyInput.value = localStorage.getItem(API_KEY_STORAGE) || '';
-                apiKeyModal.classList.add('visible');
-            };
-            const hideApiKeyModal = () => apiKeyModal.classList.remove('visible');
 
             const resizeTextarea = (textarea) => {
                 if (!textarea) return;
@@ -932,167 +652,6 @@
                 showToast('Semua isian telah dikosongkan.', false);
             };
 
-            // --- AI & MODAL FUNCTIONS (REFACTORED) ---
-            const showAiModal = (target, title, promptKey) => {
-                if (!localStorage.getItem(API_KEY_STORAGE)) {
-                    showToast('Kunci API belum diatur. Silakan atur terlebih dahulu.', false);
-                    showApiKeyModal();
-                    return;
-                }
-                currentAiTarget = target;
-                currentAiPromptKey = promptKey;
-                aiModalTitle.textContent = `AI untuk ${title}`;
-                aiPromptInput.value = '';
-                aiLoading.classList.add('hidden');
-                aiModalGenerateBtn.style.display = 'inline-flex';
-                aiModalCancelBtn.style.display = 'inline-flex';
-                aiModal.classList.add('visible');
-            };
-
-            const hideAiModal = () => aiModal.classList.remove('visible');
-
-            const getGenerationContext = () => {
-                return {
-                    MATA_PELAJARAN: document.getElementById('mata-pelajaran').value || '[Belum diisi]',
-                    TOPIK: document.getElementById('materi-ajar').value || '[Belum diisi]',
-                    KELAS: document.getElementById('kelas').value || '[Belum diisi]',
-                    FASE: document.getElementById('fase').value || '[Belum diisi]',
-                    TUJUAN_PEMBELAJARAN: document.getElementById('desain-tujuan')?.value || '[Belum diisi]',
-                    CAPAIAN_PEMBELAJARAN: document.getElementById('desain-capaian')?.value || '[Belum diisi]',
-                    PRAKTIK_PEDAGOGIS: document.getElementById('desain-pedagogis')?.value || '[Belum diisi]'
-                };
-            };
-
-            const executeAiGeneration = async (promptKey, target, userPrompt = '') => {
-                const apiKey = localStorage.getItem(API_KEY_STORAGE);
-                if (!apiKey) {
-                    showToast('Kunci API tidak ditemukan. Silakan atur di Pengaturan Kunci API.', false);
-                    return false;
-                }
-
-                let promptTemplate = PROMPT_TEMPLATES[promptKey];
-                if (!promptTemplate) {
-                    showToast(`Error: Prompt template '${promptKey}' tidak ditemukan.`, false);
-                    return false;
-                }
-                
-                const context = getGenerationContext();
-                let finalPrompt = promptTemplate;
-                for (const key in context) {
-                    finalPrompt = finalPrompt.replace(new RegExp(`{${key}}`, 'g'), context[key]);
-                }
-                
-                if (userPrompt) {
-                    finalPrompt += `\n\nFokus tambahan dari pengguna: "${userPrompt}"`;
-                }
-
-                try {
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                    const needsJson = [].includes(promptKey);
-                    
-                    const payload = {
-                        contents: [{ parts: [{ text: finalPrompt }] }],
-                        generationConfig: needsJson ? { responseMimeType: "application/json" } : {}
-                    };
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        const errorBody = await response.json();
-                        console.error("API Error Body:", errorBody);
-                        throw new Error(`API Error: ${response.statusText}`);
-                    }
-
-                    const result = await response.json();
-                    if (!result.candidates || !result.candidates[0].content || !result.candidates[0].content.parts) {
-                        throw new Error("Invalid API response structure.");
-                    }
-                    const text = result.candidates[0].content.parts[0].text;
-
-                    if (typeof target === 'string') {
-                        const targetTextarea = document.getElementById(target);
-                        if (targetTextarea) {
-                            targetTextarea.value = text.trim();
-                            resizeTextarea(targetTextarea);
-                        }
-                    } else if (Array.isArray(target)) {
-                        const parsedJson = JSON.parse(text);
-                        target.forEach((id, index) => {
-                           const key = Object.keys(parsedJson)[index];
-                           if(key) {
-                               document.getElementById(id).value = parsedJson[key] || '';
-                               resizeTextarea(document.getElementById(id));
-                           }
-                        });
-                    }
-                    return true;
-                } catch (error) {
-                    console.error(`AI Generation Error for ${promptKey}:`, error);
-                    showToast(`Gagal membuat konten untuk ${promptKey}.`, false);
-                    return false;
-                }
-            };
-           
-            const generateAiContent = async () => {
-                if (!currentAiTarget || !currentAiPromptKey) return;
-                aiLoading.style.display = 'flex';
-                aiModalGenerateBtn.style.display = 'none';
-                aiModalCancelBtn.style.display = 'none';
-                
-                const success = await executeAiGeneration(currentAiPromptKey, currentAiTarget, aiPromptInput.value);
-                if (success) {
-                    showToast('Konten berhasil dibuat oleh AI!');
-                }
-                hideAiModal();
-            };
-
-            const generateAllAiContent = async () => {
-                 if (!localStorage.getItem(API_KEY_STORAGE)) {
-                    showToast('Kunci API belum diatur. Silakan atur terlebih dahulu.', false);
-                    showApiKeyModal();
-                    return;
-                }
-                const tujuanPembelajaran = document.getElementById('desain-tujuan').value;
-                if (!tujuanPembelajaran.trim()) {
-                    showToast('Harap isi "Tujuan Pembelajaran" terlebih dahulu sebelum menggunakan fitur ini.', false);
-                    document.getElementById('desain-tujuan').focus();
-                    return;
-                }
-
-                showConfirmationModal(
-                    'Mulai Isi Otomatis?',
-                    'Proses ini akan mengisi semua bagian berdasarkan Tujuan Pembelajaran. Ini mungkin memakan waktu beberapa saat. Lanjutkan?',
-                    async () => {
-                        bulkLoaderOverlay.classList.add('visible');
-                        generateAllBtn.disabled = true;
-                        generateAllBtn.classList.add('opacity-50', 'cursor-not-allowed');
-
-                        const promises = SECTIONS_TO_GENERATE.map(section => 
-                            executeAiGeneration(section.promptKey, section.target)
-                        );
-                        
-                        const results = await Promise.allSettled(promises);
-
-                        bulkLoaderOverlay.classList.remove('visible');
-                        generateAllBtn.disabled = false;
-                        generateAllBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-
-                        const failedCount = results.filter(r => r.status === 'rejected' || (r.status === 'fulfilled' && !r.value)).length;
-
-                        if (failedCount === 0) {
-                            showToast('Semua bagian telah berhasil diisi secara otomatis!', true);
-                        } else {
-                            showToast(`${failedCount} bagian gagal dibuat. Silakan periksa konsol untuk detailnya.`, false);
-                            console.error("Gagal membuat beberapa bagian:", results);
-                        }
-                    }
-                );
-            };
-
             // --- EVENT LISTENERS ---
            
             printBtn.addEventListener('click', () => window.print());
@@ -1100,25 +659,9 @@
             clearBtn.addEventListener('click', () => {
                 showConfirmationModal('Kosongkan Isian?', 'Semua progres yang belum disimpan akan hilang. Apakah Anda yakin?', clearData);
             });
-            generateAllBtn.addEventListener('click', generateAllAiContent);
            
             modalCancelBtn.addEventListener('click', hideConfirmationModal);
             confirmationModal.addEventListener('click', (e) => { if (e.target === confirmationModal) hideConfirmationModal(); });
-
-            apiKeyBtn.addEventListener('click', showApiKeyModal);
-            apiKeyCancelBtn.addEventListener('click', hideApiKeyModal);
-            apiKeySaveBtn.addEventListener('click', () => {
-                const newKey = apiKeyInput.value.trim();
-                if(newKey) {
-                    localStorage.setItem(API_KEY_STORAGE, newKey);
-                    showToast('Kunci API berhasil disimpan.');
-                    hideApiKeyModal();
-                } else {
-                    localStorage.removeItem(API_KEY_STORAGE);
-                    showToast('Kunci API dihapus.', false);
-                    hideApiKeyModal();
-                }
-            });
 
             uploadSignatureBtn.addEventListener('click', () => {
                 signatureUploadInput.click();
@@ -1137,24 +680,6 @@
                     showToast('Harap pilih file gambar (PNG/JPEG).', false);
                 }
             });
-
-            aiButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetId = button.dataset.target;
-                    const targetGroup = button.dataset.targetGroup;
-                    const title = button.dataset.title;
-                    const promptKey = button.dataset.promptKey;
-                    const target = targetId ? targetId : (targetGroup ? JSON.parse(targetGroup) : null);
-                    if (target) {
-                        showAiModal(target, title, promptKey);
-                    }
-                });
-            });
-
-
-            aiModalGenerateBtn.addEventListener('click', generateAiContent);
-            aiModalCancelBtn.addEventListener('click', hideAiModal);
-            aiModal.addEventListener('click', (e) => { if (e.target === aiModal) hideAiModal(); });
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1220,12 +745,6 @@
                 setFooterYear();
                 if (localStorage.getItem(STORAGE_KEY)) {
                     showConfirmationModal('Progres Ditemukan', 'Terdapat progres yang tersimpan sebelumnya. Apakah Anda ingin memuatnya?', loadData);
-                }
-                 if (!localStorage.getItem(API_KEY_STORAGE)) {
-                    setTimeout(() => {
-                        showToast('Selamat datang! Harap atur Kunci API Anda untuk mengaktifkan fitur AI.', false);
-                        showApiKeyModal();
-                    }, 1500);
                 }
             };
 
