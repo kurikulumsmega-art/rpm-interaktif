@@ -6,12 +6,6 @@
     <title>Penyusun Rencana Pembelajaran Mendalam (RPM) Interaktif</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- 
-        Change Log (Final):
-        - Removed all integrated AI functionality (API keys, AI buttons, and related modals/JavaScript).
-        - The application is now a clean, static form for manual input.
-        - A separate 'prompts.md' file is provided for users to manually generate content with their preferred AI tool.
-    -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -182,36 +176,247 @@
             background-color: #eef2ff;
         }
 
+        /* Header khusus untuk cetakan */
+        .print-header {
+            display: none;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #1e3a8a;
+            text-align: left;
+        }
+
         @media print {
-            body { font-size: 9pt; line-height: 1.2; background-color: white; }
-            header, .action-buttons, .print-info, footer, .ai-button, #upload-signature-btn { display: none; }
+            /* Pengaturan ukuran kertas F4 dengan margin baru */
+            @page {
+                size: 21cm 33cm;
+                margin: 2cm 1cm 1.5cm 1.5cm;
+            }
+            
+            body { 
+                font-size: 9pt; 
+                line-height: 1.2; 
+                background-color: white; 
+                margin: 0;
+                padding: 0;
+                width: 21cm;
+                height: 33cm;
+            }
+            
+            /* Menampilkan header khusus untuk cetakan */
+            .print-header {
+                display: block;
+                page-break-after: avoid;
+                margin-bottom: 0.5rem;
+                margin-top: 0.5cm; /* Tambahan jarak dari ujung kertas */
+            }
+            
+            .print-header .logo-container {
+                float: left;
+                margin-right: 1rem;
+            }
+            
+            .print-header img {
+                height: 70px;
+                width: auto;
+            }
+            
+            .print-header .school-info {
+                overflow: hidden;
+            }
+            
+            .print-header .school-name {
+                font-size: 14pt;
+                font-weight: bold;
+                margin: 0 0 0.1rem 0;
+                color: #1e3a8a;
+                text-align: left;
+            }
+            
+            .print-header .document-title {
+                font-size: 12pt;
+                font-weight: bold;
+                margin: 0 0 0.1rem 0;
+                color: #1e3a8a;
+                text-align: left;
+            }
+            
+            .print-header .school-address {
+                font-size: 9pt;
+                margin: 0;
+                line-height: 1.2;
+                text-align: left;
+            }
+            
+            /* Sembunyikan elemen yang tidak perlu dicetak */
+            header, .action-buttons, .print-info, footer, .ai-button, #upload-signature-btn,
+            .placeholder-text, .invisible {
+                display: none !important;
+            }
+            
             main { 
                 padding: 0 !important; 
                 margin: 0 auto !important;
-                max-width: 18cm;
+                width: 21cm;
+                max-width: 21cm;
             }
-            h1 { font-size: 18pt; margin-bottom: 1rem !important; }
-            .section-card, .rpm-section { box-shadow: none; border: 1px solid #cccccc; padding: 0.5rem; margin-bottom: 1rem; page-break-inside: avoid; }
-            .rpm-row { border-bottom: 1px solid #cccccc; }
-            .rpm-content { padding: 0.5rem 1rem; }
-            .rpm-category { background-color: #1e3a8a !important; border-right-color: #1e3a8a !important; -webkit-print-color-adjust: exact; color-adjust: exact; }
-            .rpm-category h3 { color: #ffffff !important; }
-            .section-title { font-size: 14pt; color: black; border-bottom: 1px solid #d1d5db; padding-bottom: 0.25rem; margin-bottom: 0.75rem; }
-            .input-label { margin-bottom: 0.2rem; }
-            .text-input, .textarea-input { border: none; padding: 0; background-color: #f9fafb !important; -webkit-print-color-adjust: exact; color-adjust: exact; border-radius: 0; min-height: auto; color: black !important; height: auto !important; overflow: visible !important; }
-            .textarea-input { padding: 0.5rem; border: 1px dashed #d1d5db; }
-            p, .input-label { color: black !important; }
+            
+            h1 { 
+                font-size: 16pt; 
+                margin-bottom: 0.5rem !important; 
+                text-align: center;
+            }
+            
+            .section-card, .rpm-section { 
+                box-shadow: none; 
+                border: 1px solid #cccccc; 
+                padding: 0.3rem; 
+                margin-bottom: 0.5rem; 
+                page-break-inside: avoid; 
+            }
+            
+            /* Perkecil jarak antar baris di bagian informasi umum */
+            #umum .rpm-row {
+                padding: 0.1rem 0;
+                min-height: auto;
+            }
+            
+            #umum .rpm-content {
+                padding: 0.2rem 0.5rem;
+            }
+            
+            #umum .input-label {
+                margin-bottom: 0.1rem;
+                font-size: 8pt;
+            }
+            
+            #umum .text-input {
+                padding: 0.2rem 0.3rem;
+                font-size: 8pt;
+                min-height: auto;
+                height: auto;
+            }
+            
+            .rpm-row { 
+                border-bottom: 1px solid #cccccc; 
+                padding: 0.2rem 0;
+            }
+            
+            .rpm-content { 
+                padding: 0.3rem 0.5rem; 
+            }
+            
+            .rpm-category { 
+                background-color: #1e3a8a !important; 
+                border-right-color: #1e3a8a !important; 
+                -webkit-print-color-adjust: exact; 
+                color-adjust: exact; 
+                padding: 0.5rem 1rem;
+            }
+            
+            .rpm-category h3 { 
+                color: #ffffff !important; 
+                font-size: 9pt;
+                margin: 0;
+            }
+            
+            .section-title { 
+                font-size: 12pt; 
+                color: black; 
+                border-bottom: 1px solid #d1d5db; 
+                padding-bottom: 0.2rem; 
+                margin-bottom: 0.5rem; 
+            }
+            
+            .input-label { 
+                margin-bottom: 0.2rem; 
+                font-size: 9pt;
+            }
+            
+            .text-input, .textarea-input { 
+                border: none; 
+                padding: 0; 
+                background-color: #f9fafb !important; 
+                -webkit-print-color-adjust: exact; 
+                color-adjust: exact; 
+                border-radius: 0; 
+                min-height: auto; 
+                color: black !important; 
+                height: auto !important; 
+                overflow: visible !important; 
+                font-size: 9pt;
+            }
+            
+            .textarea-input { 
+                padding: 0.3rem; 
+                border: 1px dashed #d1d5db; 
+                min-height: 60px;
+                font-size: 9pt;
+            }
+            
+            p, .input-label { 
+                color: black !important; 
+            }
 
-            #pengesahan img, #lampiran img {
+            /* Pengaturan tanda tangan yang lebih baik */
+            #pengesahan {
+                page-break-inside: avoid;
+                margin-top: 0.5rem;
+            }
+            
+            #pengesahan .signature-container {
+                height: 60px !important;
+                min-height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0.2rem 0;
+            }
+            
+            #pengesahan img {
                 display: block !important;
-                max-height: 1.5cm !important;
+                max-height: 50px !important;
+                height: 50px !important;
                 width: auto !important;
                 margin: 0 auto !important;
                 -webkit-print-color-adjust: exact;
                 color-adjust: exact;
             }
+            
+            /* Khusus untuk tanda tangan KS yang sudah ada teksnya */
+            #pengesahan .ks-signature-container {
+                height: 70px !important;
+                min-height: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0.2rem 0;
+            }
+            
+            #pengesahan .ks-signature-container img {
+                max-height: 60px !important;
+                height: 60px !important;
+            }
+            
             #guru-signature-img.hidden {
                 display: none !important;
+            }
+            
+            /* Hilangkan placeholder text */
+            .text-input::placeholder,
+            .textarea-input::placeholder {
+                color: transparent !important;
+            }
+            
+            /* Memastikan konten tidak melebihi halaman */
+            .rpm-section, .section-card {
+                break-inside: avoid;
+            }
+            
+            /* Pengaturan untuk checkbox */
+            input[type="checkbox"] {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                transform: scale(0.8);
             }
         }
     </style>
@@ -253,6 +458,18 @@
     </header>
 
     <main class="container mx-auto px-4 lg:px-8 py-8">
+        <!-- Header khusus untuk cetakan -->
+        <div class="print-header">
+            <div class="logo-container">
+                <img src="https://upload.wikimedia.org/wikipedia/id/thumb/a/a4/Logo_SMK_Negeri_1_Purbalingga.png/250px-Logo_SMK_Negeri_1_Purbalingga.png" alt="Logo SMK Negeri 1 Purbalingga">
+            </div>
+            <div class="school-info">
+                <h1 class="school-name">SMK NEGERI 1 PURBALINGGA</h1>
+                <h2 class="document-title">RENCANA PEMBELAJARAN MENDALAM</h2>
+                <p class="school-address">Jl. Mayor Jend. Sungkono No.34, Selabaya, Kec. Kalimanah, Kabupaten Purbalingga, Jawa Tengah 53371</p>
+            </div>
+        </div>
+
         <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Rencana Pembelajaran Mendalam</h1>
 
         <!-- Bagian Informasi Umum -->
@@ -364,7 +581,7 @@
                 <div class="rpm-row">
                     <div class="rpm-content w-full">
                         <label for="pengalaman-penutup" class="input-label font-medium text-gray-800">Langkah-langkah Pembelajaran: PENUTUP</label>
-                        <textarea id="pengalaman-penutup" class="textarea-input" placeholder="Kegiatan penutup (simpulan, umpan balik, doa) selama 5 menit..."></textarea>
+                        <textarea id="pengalaman-penutup" class="textarea-input" placeholder="Kegiatan penutup (simpulan, umpan balik, doa) selama 5 menint..."></textarea>
                     </div>
                 </div>
             </div>
@@ -402,26 +619,27 @@
                 <div class="w-full md:w-auto md:max-w-[260px] flex-1">
                     <p>Mengetahui,</p>
                     <p class="font-semibold">Kepala Sekolah</p>
-                    <div class="h-16 relative flex items-center justify-center my-1">
-                        <img src="https://i.ibb.co/6gS4bC2/ttd-Kepala-Sekolah.png" alt="Tanda Tangan Kepala Sekolah" class="h-full">
+                    <div class="ks-signature-container">
+                        <!-- Tanda Tangan Kepala Sekolah dari ImageKit (sudah ada teks) -->
+                        <img src="https://ik.imagekit.io/szyueti8m/ttd%20KS%20-%20Diedit%20-%20Diedit%20-%20Diedit.png?updatedAt=1761382931279" alt="Tanda Tangan Kepala Sekolah">
                     </div>
-                    <p class="font-semibold underline mt-1">Maryono S.Pd, M.Si</p>
-                    <p class="text-sm">NIP. 19660701 2000121002</p>
+                    <!-- Teks nama dan NIP dihilangkan karena sudah ada di gambar -->
                 </div>
                 <div class="w-full md:w-auto md:max-w-[260px] flex-1">
-                    <p class="invisible md:visible">Placeholder</p>
+                    <p class="placeholder-text">Placeholder</p>
                     <p class="font-semibold">Waka Kurikulum</p>
-                     <div class="h-16 relative flex items-center justify-center my-1">
-                        <img src="https://i.ibb.co/6r09yC6/ttd-Kurikulum.png" alt="Tanda Tangan Waka Kurikulum" class="h-full">
+                     <div class="signature-container">
+                        <!-- Tanda Tangan Waka Kurikulum dari ImageKit -->
+                        <img src="https://ik.imagekit.io/szyueti8m/Tanpa%20judul%20(3,370%20x%202,125).png?updatedAt=1761383002551" alt="Tanda Tangan Waka Kurikulum">
                     </div>
                     <p class="font-semibold underline mt-1">Satyo Nugroho, S.Kom</p>
                     <p class="text-sm">NIP. 197807142009031006</p>
                 </div>
                 <div class="w-full md:w-auto md:max-w-[260px] flex-1">
-                    <p class="invisible md:visible">Placeholder</p>
+                    <p class="placeholder-text">Placeholder</p>
                     <p class="font-semibold">Guru Mata Pelajaran</p>
-                    <div class="h-16 relative flex items-center justify-center my-1">
-                        <img id="guru-signature-img" class="hidden h-full" alt="Tanda Tangan Guru">
+                    <div class="signature-container">
+                        <img id="guru-signature-img" class="hidden" alt="Tanda Tangan Guru">
                     </div>
                     <button type="button" id="upload-signature-btn" class="text-sm text-blue-600 hover:underline -mt-1">Unggah Tanda Tangan</button>
                     <input type="file" id="signature-upload-input" class="hidden" accept="image/png, image/jpeg">
@@ -496,31 +714,89 @@
             const STORAGE_KEY = 'rpmInteractiveData';
             
             const teacherData = {
-                "Dra. Sri Mularsih": "196706201994122001", "Drs. Fiva Widiarto": "196510231996011002", "Wahyu Budi Susapti, S.Pd, MM.": "197207291997022002",
-                "Marwoto, S.Pd, S.Kom": "196904082000121001", "Sri Endah Swarastuti, S.Pd": "197407022003122004", "Dra. Cukat Budi Rahayu": "196901121994032010",
-                "Dra. Diah Ayu Supriyanti": "196603261994122004", "Justina Trirahaju Leksanawati, S.Pd., M.Si.": "197104162003122006", "Sri Wahyuni, S.Pd": "197008022002122004",
-                "Dwi Agus Tri M.M., S.Pd": "197102232002122004", "Sumardi, S.Pd., S.Kom": "197305272003121002", "Agung Pamuji, S.Pd": "197402132005011008",
-                "Retnowati, S.Pd": "197303272005012009", "Tony Eka Martin Wibowo, S.Si.": "197912092005011004", "Nur Romlah, S.Pd": "197509082008012008",
-                "Deddy Suwito, S.Kom": "197209022006041013", "Agus Wuryanto, S.Pd": "197503222006041002", "Tri Puji Utami, S.Kom": "198304252009032009",
-                "Puji Pertiwi Sayekti, S.Pd": "196805102005012011", "Nur Fajriyahti, S.Pd.": "197005212007012014", "Srirahayu, S.Pd.": "197408042008012009",
-                "Romidin, S.Pd": "197505052008011021", "Teguh Cahyono, S.Pd.": "198110232006041010", "Seto Eko Purwanto, S.Si": "197804232010011009",
-                "Nelly Amaliyah, S.Psi": "197907032010012019", "Satyo Nugroho, S.Kom.": "197807142009031006", "Suratno, S.Pd": "198409032010011012",
-                "Vektor Realita Aditopo, S.Pd": "198603312011011003", "Adi Setiawan, S.Pd.": "199012292014021001", "Galih Tyas Anjari, S.Pd.": "199201212014022001",
-                "Deti Lestiyorini, S.Pd.": "198912142014022001", "Mahzun, S.Pd I": "197601072008011009", "Sugeng Pitoyo, S.Pd.": "197311032008011002",
-                "Asriyatun, S.Pd": "199208262020122009", "Nur Laeli, S.Pd": "199704112020122011", "Sepudin Zupri, S.Kom": "197010222022211001",
-                "Arif Nurokhman, S.Pd": "198010172022211002", "Elis Sugiarti, S.Pd.": "198503072022212028", "Sudiyarti, S.Pd": "198511182022212012",
-                "Otiah, S.Pd.": "198802242022212013", "Novaristya Widyasmara Pamungkas, S.Pd": "198811042022211004", "Menik Yuni Hartini, S.Pd.": "198906292022212008",
-                "Baiq Nur Aisyah, S.Pd.": "198909222022212005", "Sulistiono, S.Pd.": "199112202022211007", "Isria Rizqona Firdausyi, S.Pd.": "199201312022212011",
-                "Hindun Fatmawati, S.Pd.": "199210042022212007", "Ana Nurlatifah, S.Pd.": "199304032022212014", "Dwi Inayah Rahmawati, M.Pd.": "199311282022212011",
-                "Danu Dwi Jatmiko, S.Pd.": "199401192022211003", "Restu Afri Widhi Hastutiningsih, S.Pd.": "199604032022212009", "Nining Setiani, S.Pd.": "199610102022212008",
-                "Kukuh Pribadi, S.Pd.": "198610232022211006", "Yekti Apriyoni, S.Pd.": "197804272023212002", "Novita Adhimurti, S.Pd.": "197811142023212001",
-                "Khamsyatun Yudiana, S.Pd.I.": "198207132023212011", "Nanang Cahyana, S.Pd.Ing.": "198603172023211003", "Waskito Ismu Hastomo, S.Pd.": "198606092023211007",
-                "Lely Erawati, S.Pd.": "198708212023212018", "Septian Endro Laksono, S.Pd.": "199009052023211004", "Firmanika Rozaqi, S.Pd.": "199104242023212024",
-                "Devi Artati, S.Pd.": "199210112023212020", "Soviatun Khasanah, S.Pd.": "199606302023212006", "Miftah Iskandar, S.Pd.": "198512112023211006",
-                "Dista Puspitasari Adi, S.Pd.": "198603182024212004", "Rita Wijiarti, S.Pd.": "199410172024212021", "Safa Aulia Astri, S.Sos": "199607212024212021",
-                "Agus Sutono, S.Pd.": "197406182025211007", "Yanti Karadina, S.Pd.": "197512172025212006", "Widia Sukaesih, S.E.": "197810082025212008",
-                "Triyanto, S.Pd.": "198411252025211021", "Inayatul Munawaroh, S.Pd.": "199301062025212023", "Danu Setio Aji, S.Pd.": "199310162025211021",
-                "Hera Dwi Suryandari, S.Pd.": "199312262025212012", "Slamet Suparman, S.Pd.": "-", "Devi Dwi Wahyuni, S.Pd.": "-", "Muhammad Idris Afandi, S.S., M.Pd.": "-"
+            "Maryono S.Pd, M.Si": "196607012000121002", 
+            "Dra. Sri Mularsih": "196706201994122001", 
+            "Drs. Fiva Widiarto": "196510231996011002", 
+            "Wahyu Budi Susapti, S.Pd, MM.": "197207291997022002", 
+            "Marwoto, S.Pd, S.Kom": "196904082000121001", 
+            "Sri Endah Swarastuti, S.Pd": "197407022003122004", 
+            "Dra. Cukat Budi Rahayu": "196901121994032010", 
+            "Dra. Diah Ayu Supriyanti": "196603261994122004", 
+            "Justina Trirahaju Leksanawati, S.Pd., M.Si.": "197104162003122006", 
+            "Sri Wahyuni, S.Pd": "197008022002122004", 
+            "Dwi Agus Tri M.M., S.Pd": "197102232002122004", 
+            "Sumardi, S.Pd., S.Kom": "197305272003121002", 
+            "Agung Pamuji, S.Pd": "197402132005011008", 
+            "Retnowati, S.Pd": "197303272005012009", 
+            "Tony Eka Martin Wibowo, S.Si.": "197912092005011004", 
+            "Nur Romlah, S.Pd": "197509082008012008", 
+            "Deddy Suwito, S.Kom": "197209022006041013", 
+            "Agus Wuryanto, S.Pd": "197503222006041002", 
+            "Tri Puji Utami, S.Kom": "198304252009032009", 
+            "Puji Pertiwi Sayekti, S.Pd": "196805102005012011", 
+            "Nur Fajriyahti, S.Pd.": "197005212007012014", 
+            "Srirahayu, S.Pd.": "197408042008012009", 
+            "Romidin, S.Pd": "197505052008011021", 
+            "Teguh Cahyono, S.Pd.": "198110232006041010", 
+            "Seto Eko Purwanto, S.Si": "197804232010011009", 
+            "Nelly Amaliyah, S.Psi": "197907032010012019",
+            "Satyo Nugroho, S.Kom.": "197807142009031006",
+            "Suratno, S.Pd": "198409032010011012", 
+            "Vektor Realita Aditopo, S.Pd": "198603312011011003", 
+            "Adi Setiawan, S.Pd.": "199012292014021001", 
+            "Galih Tyas Anjari, S.Pd.": "199201212014022001", 
+            "Deti Lestiyorini, S.Pd.": "198912142014022001", 
+            "Mahzun, S.Pd I": "197601072008011009", 
+            "Sugeng Pitoyo, S.Pd.": "197311032008011002", 
+            "Asriyatun, S.Pd": "199208262020122009", 
+            "Nur Laeli, S.Pd": "199704112020122011", 
+            "Sepudin Zupri, S.Kom": "197010222022211001", 
+            "Arif Nurokhman, S.Pd": "198010172022211002", 
+            "Elis Sugiarti, S.Pd.": "198503072022212028", 
+            "Sudiyarti, S.Pd": "198511182022212012", 
+            "Otiah, S.Pd.": "198802242022212013", 
+            "Novaristya Widyasmara Pamungkas, S.Pd": "198811042022211004", 
+            "Menik Yuni Hartini, S.Pd.": "198906292022212008", 
+            "Baiq Nur Aisyah, S.Pd.": "198909222022212005", 
+            "Sulistiono, S.Pd.": "199112202022211007", 
+            "Isria Rizqona Firdausyi, S.Pd.": "199201312022212011", 
+            "Hindun Fatmawati, S.Pd.": "199210042022212007", 
+            "Ana Nurlatifah, S.Pd.": "199304032022212014", 
+            "Dwi Inayah Rahmawati, M.Pd.": "199311282022212011", 
+            "Danu Dwi Jatmiko, S.Pd.": "199401192022211003", 
+            "Restu Afri Widhi Hastutiningsih, S.Pd.": "199604032022212009", 
+            "Nining Setiani, S.Pd.": "199610102022212008", 
+            "Kukuh Pribadi, S.Pd.": "198610232022211006", 
+            "Yekti Apriyoni, S.Pd.": "197804272023212002", 
+            "Novita Adhimurti, S.Pd.": "197811142023212001", 
+            "Khamsyatun Yudiana, S.Pd.I.": "198207132023212011", 
+            "Nanang Cahyana, S.Pd.Ing.": "198603172023211003", 
+            "Waskito Ismu Hastomo, S.Pd.": "198606092023211007", 
+            "Lely Erawati, S.Pd.": "198708212023212018", 
+            "Septian Endro Laksono, S.Pd.": "199009052023211004", 
+            "Firmanika Rozaqi, S.Pd.": "199104242023212024", 
+            "Devi Artati, S.Pd.": "199210112023212020", 
+            "Soviatun Khasanah, S.Pd.": "199606302023212006", 
+            "Miftah Iskandar, S.Pd.": "198512112023211006", 
+            "Dista Puspitasari Adi, S.Pd.": "198603182024212004", 
+            "Rita Wijiarti, S.Pd.": "199410172024212021", 
+            "Safa Aulia Astri, S.Sos": "199607212024212021", 
+            "Slamet Suparman, S.Pd.": "-", 
+            "Devi Dwi Wahyuni, S.Pd.": "-", 
+            "Agus Sutono, S.Pd.": "197406182025211007",
+            "Yanti Karadina, S.Pd.": "197512172025212006",
+            "Widia Sukaesih, S.E.": "197810082025212008",
+            "Triyanto, S.Pd.": "198411252025211021",
+            "Inayatul Munawaroh, S.Pd.": "199301062025212023",
+            "Danu Setio Aji, S.Pd.": "199310162025211021",
+            "Hera Dwi Suryandari, S.Pd.": "199312262025212012",
+            "Rindhi Rezqi Hertindha, M.Pd.": "-",
+            "Seli Fadriyah, S.Pd.": "-",
+            "Nurhidayah, S.S., M.Pd.": "-",
+            "Prana Prakasita, S.Pd.": "-",
+            "Rita Puspitasari, S.Pd.": "-",
+            "Ullil Hykmah, S.Pd.": "-",
+            "Muhammad Idris Afandi, S.S., M.Pd.": "-",
             };
             
             // --- DOM Element Selection ---
@@ -753,4 +1029,3 @@
     </script>
 </body>
 </html>
-
