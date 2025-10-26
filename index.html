@@ -177,89 +177,92 @@
         }
 
         /* Header khusus untuk cetakan */
-        .print-header {
-            display: none;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #1e3a8a;
-            text-align: left;
-        }
+.print-header {
+    display: none;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #1e3a8a;
+    text-align: left;
+}
 
-        @media print {
-            /* Pengaturan ukuran kertas F4 dengan margin baru */
-            @page {
-                size: 21cm 33cm;
-                margin: 2cm 1.5cm 1.5cm 1.5cm;
-            }
-            
-            body { 
-                font-size: 9pt; 
-                line-height: 1.2; 
-                background-color: white; 
-                margin: 0;
-                padding: 0;
-                width: 21cm;
-                height: 33cm;
-            }
-            
-            /* Menampilkan header khusus untuk cetakan */
-            .print-header {
-                display: block;
-                page-break-after: avoid;
-                margin-bottom: 2rem;
-                margin-top: 2cm; /* Tambahan jarak dari ujung kertas */
-            }
-            
-            .print-header .logo-container {
-                float: left;
-                margin-right: 1rem;
-            }
-            
-            .print-header img {
-                height: 70px;
-                width: auto;
-            }
-            
-            .print-header .school-info {
-                overflow: hidden;
-            }
-            
-            .print-header .school-name {
-                font-size: 14pt;
-                font-weight: bold;
-                margin: 0 0 0.1rem 0;
-                color: #1e3a8a;
-                text-align: left;
-            }
-            
-            .print-header .document-title {
-                font-size: 12pt;
-                font-weight: bold;
-                margin: 0 0 0.1rem 0;
-                color: #1e3a8a;
-                text-align: left;
-            }
-            
-            .print-header .school-address {
-                font-size: 9pt;
-                margin: 0;
-                line-height: 1.2;
-                text-align: left;
-            }
-            
-            /* Sembunyikan elemen yang tidak perlu dicetak */
-            header, .action-buttons, .print-info, footer, .ai-button, #upload-signature-btn,
-            .placeholder-text, .invisible {
-                display: none !important;
-            }
-            
-            main { 
-                padding: 0 !important; 
-                margin: 0 auto !important;
-                width: 21cm;
-                max-width: 21cm;
-            }
-            
+@media print {
+    /* Pengaturan ukuran kertas F4 dengan margin baru */
+    @page {
+        size: 21cm 33cm;
+        margin: 2cm 1.5cm 1.5cm 1.5cm;
+    }
+    
+    body { 
+        font-size: 9pt; 
+        line-height: 1.2; 
+        background-color: white; 
+        margin: 0;
+        padding: 0;
+        width: 21cm;
+        height: 33cm;
+    }
+    
+    /* Menampilkan header khusus untuk cetakan */
+    .print-header {
+        display: block;
+        page-break-after: avoid;
+        margin-bottom: 2rem;
+        margin-top: 0; /* Sesuaikan dengan margin atas kertas */
+    }
+    
+    .print-header .logo-container {
+        float: left;
+        margin-right: 1rem;
+    }
+    
+    .print-header img {
+        height: 70px;
+        width: auto;
+    }
+    
+    .print-header .school-info {
+        overflow: hidden;
+        text-align: left;
+    }
+    
+    .print-header .school-name {
+        font-size: 14pt;
+        font-weight: bold;
+        margin: 0 0 0.1rem 0;
+        color: #1e3a8a;
+    }
+    
+    .print-header .document-title {
+        font-size: 12pt;
+        font-weight: bold;
+        margin: 0 0 0.1rem 0;
+        color: #1e3a8a;
+    }
+    
+    .print-header .school-address {
+        font-size: 9pt;
+        margin: 0;
+        line-height: 1.2;
+    }
+    
+    /* Sembunyikan elemen yang tidak perlu dicetak */
+    header, .action-buttons, .print-info, footer, .ai-button, #upload-signature-btn,
+    .placeholder-text, .invisible, h1.text-3xl {
+        display: none !important;
+    }
+    
+    /* Sembunyikan judul formulir "Rencana Pembelajaran Mendalam" */
+    h1.text-3xl {
+        display: none !important;
+    }
+    
+    main { 
+        padding: 0 !important; 
+        margin: 0 auto !important;
+        width: 21cm;
+        max-width: 21cm;
+    }
+              
             h1 { 
                 font-size: 16pt; 
                 margin-bottom: 0.5rem !important; 
@@ -459,19 +462,19 @@
 
     <main class="container mx-auto px-4 lg:px-8 py-8">
         <!-- Header khusus untuk cetakan -->
-        <div class="print-header">
-            <div class="logo-container">
-                <img src="https://upload.wikimedia.org/wikipedia/id/thumb/a/a4/Logo_SMK_Negeri_1_Purbalingga.png/250px-Logo_SMK_Negeri_1_Purbalingga.png" alt="Logo SMK Negeri 1 Purbalingga">
-            </div>
-            <div class="school-info">
-                <h1 class="school-name">SMK NEGERI 1 PURBALINGGA</h1>
-                <h2 class="document-title">RENCANA PEMBELAJARAN MENDALAM</h2>
-                <p class="school-address">Jl. Mayor Jend. Sungkono No.34, Selabaya, Kec. Kalimanah, Kabupaten Purbalingga, Jawa Tengah 53371</p>
-            </div>
-        </div>
+<div class="print-header">
+    <div class="logo-container">
+        <img src="https://upload.wikimedia.org/wikipedia/id/thumb/a/a4/Logo_SMK_Negeri_1_Purbalingga.png/250px-Logo_SMK_Negeri_1_Purbalingga.png" alt="Logo SMK Negeri 1 Purbalingga">
+    </div>
+    <div class="school-info">
+        <h1 class="school-name">RENCANA PEMBELAJARAN MENDALAM</h1>
+        <h2 class="document-title">SMK Negeri 1 Purbalingga</h2>
+        <p class="school-address">Jl. Mayor Jend. Sungkono No.34, Selabaya, Kec. Kalimanah, Kabupaten Purbalingga, Jawa Tengah 53371</p>
+    </div>
+</div>
 
-        <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Rencana Pembelajaran Mendalam</h1>
-
+<!-- Judul ini akan disembunyikan saat cetak -->
+<h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Rencana Pembelajaran Mendalam</h1>
         <!-- Bagian Informasi Umum -->
         <div id="umum" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Informasi Umum</h3></div>
@@ -1031,5 +1034,6 @@
     </script>
 </body>
 </html>
+
 
 
