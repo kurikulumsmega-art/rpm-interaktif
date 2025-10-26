@@ -176,269 +176,91 @@
             background-color: #eef2ff;
         }
 
-       /* Header khusus untuk cetakan */
-.print-header {
-    display: none;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #1e3a8a;
-    text-align: left;
-}
+        /* Header khusus untuk cetakan */
+        .print-header {
+            display: none;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #1e3a8a;
+            text-align: left;
+        }
 
-@media print {
-    /* Pengaturan ukuran kertas F4 dengan margin baru */
-    @page {
-        size: 21cm 33cm;
-        margin: 2.5cm 1cm 1.5cm 1cm; /* atas:2.5cm, kanan:1cm, bawah:1.5cm, kiri:1cm */
-    }
-    
-    body { 
-        font-size: 9pt; 
-        line-height: 1.2; 
-        background-color: white; 
-        margin: 0;
-        padding: 0;
-        width: 21cm;
-        height: 33cm;
-    }
-    
-    /* Menampilkan header khusus untuk cetakan */
-    .print-header {
-        display: flex;
-        align-items: flex-start;
-        page-break-after: avoid;
-        margin-bottom: 1.5rem;
-        margin-top: 0;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #1e3a8a;
-    }
-    
-    .print-header .logo-container {
-        flex-shrink: 0;
-        margin-right: 1rem;
-    }
-    
-    .print-header img {
-        height: 70px;
-        width: auto;
-    }
-    
-    .print-header .school-info {
-        flex: 1;
-        text-align: left;
-    }
-    
-    .print-header .school-name {
-        font-size: 14pt;
-        font-weight: bold;
-        margin: 0 0 0.2rem 0;
-        color: #1e3a8a;
-        line-height: 1.2;
-    }
-    
-    .print-header .document-title {
-        font-size: 12pt;
-        font-weight: bold;
-        margin: 0 0 0.2rem 0;
-        color: #1e3a8a;
-        line-height: 1.2;
-    }
-    
-    .print-header .school-address {
-        font-size: 9pt;
-        margin: 0;
-        line-height: 1.2;
-    }
-    
-    /* Sembunyikan elemen yang tidak perlu dicetak */
-    header, .action-buttons, .print-info, footer, .ai-button, #upload-signature-btn,
-    .placeholder-text, .invisible, h1.text-3xl {
-        display: none !important;
-    }
-    
-    main { 
-        padding: 0 !important; 
-        margin: 0 auto !important;
-        width: 21cm;
-        max-width: 21cm;
-    }
-    
-    .section-card, .rpm-section { 
-        box-shadow: none; 
-        border: 1px solid #cccccc; 
-        padding: 0.3rem; 
-        margin-bottom: 0.5rem; 
-        page-break-inside: avoid; 
-    }
-    
-    /* Perkecil jarak antar baris di bagian informasi umum */
-    #umum .rpm-row {
-        padding: 0.1rem 0;
-        min-height: auto;
-    }
-    
-    #umum .rpm-content {
-        padding: 0.2rem 0.5rem;
-    }
-    
-    #umum .input-label {
-        margin-bottom: 0.1rem;
-        font-size: 8pt;
-    }
-    
-    #umum .text-input {
-        padding: 0.2rem 0.3rem;
-        font-size: 8pt;
-        min-height: auto;
-        height: auto;
-    }
-    
-    .rpm-row { 
-        border-bottom: 1px solid #cccccc; 
-        padding: 0.2rem 0;
-    }
-    
-    .rpm-content { 
-        padding: 0.3rem 0.5rem; 
-    }
-    
-    .rpm-category { 
-        background-color: #1e3a8a !important; 
-        border-right-color: #1e3a8a !important; 
-        -webkit-print-color-adjust: exact; 
-        color-adjust: exact; 
-        padding: 0.5rem 1rem;
-    }
-    
-    .rpm-category h3 { 
-        color: #ffffff !important; 
-        font-size: 9pt;
-        margin: 0;
-    }
-    
-    .section-title { 
-        font-size: 12pt; 
-        color: black; 
-        border-bottom: 1px solid #d1d5db; 
-        padding-bottom: 0.2rem; 
-        margin-bottom: 0.5rem; 
-    }
-    
-    .input-label { 
-        margin-bottom: 0.2rem; 
-        font-size: 9pt;
-    }
-    
-    .text-input, .textarea-input { 
-        border: none; 
-        padding: 0; 
-        background-color: #f9fafb !important; 
-        -webkit-print-color-adjust: exact; 
-        color-adjust: exact; 
-        border-radius: 0; 
-        min-height: auto; 
-        color: black !important; 
-        height: auto !important; 
-        overflow: visible !important; 
-        font-size: 9pt;
-    }
-    
-    .textarea-input { 
-        padding: 0.3rem; 
-        border: 1px dashed #d1d5db; 
-        min-height: 60px;
-        font-size: 9pt;
-    }
-    
-    p, .input-label { 
-        color: black !important; 
-    }
-
-    /* Pengaturan tanda tangan yang lebih baik */
-    #pengesahan {
-        page-break-inside: avoid;
-        margin-top: 0.5rem;
-    }
-    
-    #pengesahan .signature-container {
-        height: 60px !important;
-        min-height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0.2rem 0;
-    }
-    
-    #pengesahan img {
-        display: block !important;
-        max-height: 50px !important;
-        height: 50px !important;
-        width: auto !important;
-        margin: 0 auto !important;
-        -webkit-print-color-adjust: exact;
-        color-adjust: exact;
-    }
-    
-    /* Khusus untuk tanda tangan KS yang sudah ada teksnya */
-    #pengesahan .ks-signature-container {
-        height: 70px !important;
-        min-height: 70px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0.2rem 0;
-    }
-    
-    #pengesahan .ks-signature-container img {
-        max-height: 60px !important;
-        height: 60px !important;
-    }
-    
-    #guru-signature-img.hidden {
-        display: none !important;
-    }
-    
-    /* Hilangkan placeholder text */
-    .text-input::placeholder,
-    .textarea-input::placeholder {
-        color: transparent !important;
-    }
-    
-    /* Memastikan konten tidak melebihi halaman */
-    .rpm-section, .section-card {
-        break-inside: avoid;
-    }
-    
-    /* Pengaturan untuk checkbox */
-    input[type="checkbox"] {
-        -webkit-print-color-adjust: exact;
-        color-adjust: exact;
-        transform: scale(0.8);
-    }
-}
-    
-    /* Sembunyikan elemen yang tidak perlu dicetak */
-    header, .action-buttons, .print-info, footer, .ai-button, #upload-signature-btn,
-    .placeholder-text, .invisible, h1.text-3xl {
-        display: none !important;
-    }
-    
-    /* Sembunyikan judul formulir "Rencana Pembelajaran Mendalam" */
-    h1.text-3xl {
-        display: none !important;
-    }
-    
-    main { 
-        padding: 0 !important; 
-        margin: 0 auto !important;
-        width: 21cm;
-        max-width: 21cm;
-    }
-              
-            h1 { 
-                font-size: 16pt; 
-                margin-bottom: 0.5rem !important; 
-                text-align: center;
+        @media print {
+            /* Pengaturan ukuran kertas F4 dengan margin baru */
+            @page {
+                size: 21cm 33cm;
+                margin: 2.5cm 1cm 1.5cm 1cm; /* atas:2.5cm, kanan:1cm, bawah:1.5cm, kiri:1cm */
+            }
+            
+            body { 
+                font-size: 9pt; 
+                line-height: 1.2; 
+                background-color: white; 
+                margin: 0;
+                padding: 0;
+                width: 21cm;
+                height: 33cm;
+            }
+            
+            /* Menampilkan header khusus untuk cetakan */
+            .print-header {
+                display: flex;
+                align-items: flex-start;
+                page-break-after: avoid;
+                margin-bottom: 1.5rem;
+                margin-top: 0;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #1e3a8a;
+            }
+            
+            .print-header .logo-container {
+                flex-shrink: 0;
+                margin-right: 1rem;
+            }
+            
+            .print-header img {
+                height: 70px;
+                width: auto;
+            }
+            
+            .print-header .school-info {
+                flex: 1;
+                text-align: left;
+            }
+            
+            .print-header .school-name {
+                font-size: 14pt;
+                font-weight: bold;
+                margin: 0 0 0.2rem 0;
+                color: #1e3a8a;
+                line-height: 1.2;
+            }
+            
+            .print-header .document-title {
+                font-size: 12pt;
+                font-weight: bold;
+                margin: 0 0 0.2rem 0;
+                color: #1e3a8a;
+                line-height: 1.2;
+            }
+            
+            .print-header .school-address {
+                font-size: 9pt;
+                margin: 0;
+                line-height: 1.2;
+            }
+            
+            /* Sembunyikan elemen yang tidak perlu dicetak */
+            header, .action-buttons, .print-info, footer, .ai-button, #upload-signature-btn,
+            .placeholder-text, .invisible, h1.text-3xl {
+                display: none !important;
+            }
+            
+            main { 
+                padding: 0 !important; 
+                margin: 0 auto !important;
+                width: 21cm;
+                max-width: 21cm;
             }
             
             .section-card, .rpm-section { 
@@ -634,19 +456,19 @@
 
     <main class="container mx-auto px-4 lg:px-8 py-8">
         <!-- Header khusus untuk cetakan -->
-<div class="print-header">
-    <div class="logo-container">
-        <img src="https://upload.wikimedia.org/wikipedia/id/thumb/a/a4/Logo_SMK_Negeri_1_Purbalingga.png/250px-Logo_SMK_Negeri_1_Purbalingga.png" alt="Logo SMK Negeri 1 Purbalingga">
-    </div>
-    <div class="school-info">
-        <h1 class="school-name">RENCANA PEMBELAJARAN MENDALAM</h1>
-        <h2 class="document-title">SMK Negeri 1 Purbalingga</h2>
-        <p class="school-address">Jl. Mayor Jend. Sungkono No.34, Selabaya, Kec. Kalimanah, Kabupaten Purbalingga, Jawa Tengah 53371</p>
-    </div>
-</div>
+        <div class="print-header">
+            <div class="logo-container">
+                <img src="https://upload.wikimedia.org/wikipedia/id/thumb/a/a4/Logo_SMK_Negeri_1_Purbalingga.png/250px-Logo_SMK_Negeri_1_Purbalingga.png" alt="Logo SMK Negeri 1 Purbalingga">
+            </div>
+            <div class="school-info">
+                <h1 class="school-name">RENCANA PEMBELAJARAN MENDALAM</h1>
+                <h2 class="document-title">SMK Negeri 1 Purbalingga</h2>
+                <p class="school-address">Jl. Mayor Jend. Sungkono No.34, Selabaya, Kec. Kalimanah, Kabupaten Purbalingga, Jawa Tengah 53371</p>
+            </div>
+        </div>
 
-<!-- Judul ini akan disembunyikan saat cetak -->
-<h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Rencana Pembelajaran Mendalam</h1>
+        <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Rencana Pembelajaran Mendalam</h1>
+
         <!-- Bagian Informasi Umum -->
         <div id="umum" class="rpm-section scroll-mt-24">
             <div class="rpm-category"><h3>Informasi Umum</h3></div>
@@ -1206,7 +1028,3 @@
     </script>
 </body>
 </html>
-
-
-
-
